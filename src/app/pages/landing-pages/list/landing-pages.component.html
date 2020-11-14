@@ -1,0 +1,88 @@
+<div class="row">
+  <h2 class="mb-4">Landing pages</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <div class="row" [formGroup]="filtersFormGroup" (change)="toggleFilters()">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="search" class="form-control-label">Search</label>
+          <input
+            type="text"
+            id="search"
+            class="form-control"
+            formControlName="searchInput"
+            (keydown.enter)="updateFiltersInQueryParams()"
+          >
+        </div>
+      </div>
+      <div class="col-4 clearfix">
+        <button class="btn btn-link label-margin mr-4" (click)="clearFilters()">Clear filters</button>
+        <button class="btn btn-success label-margin" (click)="updateFiltersInQueryParams()">Update</button>
+      </div>
+      <div class="col-2" *hasRole="['CreateOffer']">
+        <div class="float-right label-margin">
+          <button class="btn btn-success" routerLink="/dashboard/add-landing-page">Add landing page</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 scroll">
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th class="td-3">Name</th>
+            <th class="td-2">Type</th>
+            <th class="td-2">Creation date</th>
+            <th class="td-2">URL</th>
+            <th class="td-2">Image</th>
+            <th class="td-1"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let landingPage of landingPages">
+            <th class="align-middle"><a routerLink="/dashboard/landing-pages/{{landingPage.id}}">
+              <h5>{{landingPage.name}}</h5></a></th>
+            <td class="align-middle">
+              <i *ngIf="landingPage.type == 0 || landingPage.type == 2" class="fa fa-mobile format"></i>&emsp;
+              <i *ngIf="landingPage.type == 1 || landingPage.type == 2" class="fa fa-desktop format"></i>&emsp;
+            </td>
+            <td class="align-middle">{{landingPage.creationDate | date}} </td>
+            <td class="align-middle">{{landingPage.linkTemplate}}</td>
+            <td class="align-middle">
+              <img width="20%" height="20%" [alt]="landingPage.name" [src]="landingPage.image | imageIdToLink"
+                   style="cursor: pointer">
+            </td>
+            <td class="align-middle">
+              <a href="" class="btn btn-outline-danger" routerLink="/dashboard/landing-pages/{{landingPage.id}}/edit">
+                Edit
+              </a>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot *ngIf="loading">
+          <tr>
+            <td colspan="9">
+              Loading... <i class="fa fa-spinner loading"></i>
+            </td>
+          </tr>
+          </tfoot>
+          <tfoot *ngIf="landingPages?.length == 0 && !loading">
+          <tr>
+            <td colspan="9">
+              No landing pages.
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <paginator [amount]="pageCount" [selected]="pageSelected"></paginator>
+      </div>
+    </div>
+  </div>
+</div>

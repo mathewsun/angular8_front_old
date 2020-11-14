@@ -1,0 +1,20 @@
+<div class="modal fade" [ngClass]="{'show': isShow}">
+  <div class="modal-background" (click)="onOutsideClick()">
+  </div>
+  <div class="modal-dialog">
+    <div class="au-card modal-content">
+      <div class="modal-body lb-body">
+        <div class="row">
+          <div class="col-11">
+            <h4 class="mb-4">Request access</h4>
+          </div>
+          <div class="col-1">
+            <i (click)="close()" class="fa fa-times float-right close-button"></i>
+          </div>
+        </div>
+        <app-ticket-form (onSend)="onSend()" format="popup" type="requestAccess" [offerId]="offerId"
+                         [offerName]="offerName"></app-ticket-form>
+      </div>
+    </div>
+  </div>
+</div>

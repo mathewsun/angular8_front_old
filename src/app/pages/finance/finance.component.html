@@ -1,0 +1,61 @@
+<div class="row">
+  <h2 class="mb-4">Finance</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+
+    <!-- Tabs      -->
+    <ul class="nav nav-tabs" id="financeTab" role="tablist" *ngIf="!admin">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="list-tab"
+          data-toggle="tab"
+          role="tab"
+          href="#list"
+          aria-controls="list"
+          aria-selected="true">
+          Payout list
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="payout-tab"
+          data-toggle="tab"
+          role="tab"
+          href="#payout"
+          aria-controls="payout"
+          aria-selected="false">
+          Order payout
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content" id="financeTabContent">
+
+      <!-- Payout list      -->
+
+      <div
+        class="tab-pane fade show active"
+        id="list"
+        role="tabpanel"
+        aria-labelledby="list-tab">
+        <br>
+        <app-payout-list [admin]="admin" [users]="snapshot.data.users"></app-payout-list>
+      </div>
+
+      <!-- Order payout      -->
+
+      <div
+        class="tab-pane fade"
+        id="payout"
+        role="tabpanel"
+        aria-labelledby="order-tab">
+        <br>
+        <app-payout></app-payout>
+      </div>
+
+    </div>
+  </div>
+</div>
+

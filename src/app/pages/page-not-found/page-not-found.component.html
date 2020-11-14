@@ -1,0 +1,11 @@
+<div [ngClass]="{'page-404__user__body' : mode == 'user', 'page-404__guest__body' : mode == 'guest'}">
+  <div class="page-404">
+    <div class="page-404__text">
+      <p class="oops">OOPS!</p>
+      <h1 class="404">404</h1>
+      <p class="page-not-found">Page not found</p>
+    </div>
+    <button class="page-404__button btn btn-success btn-block" routerLink="/dashboard">Go to the front page</button>
+  </div>
+  <img width="5%" height="5%" class="logo" src="assets/images/logo_c2m.svg" alt="click2money">
+</div>

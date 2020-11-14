@@ -1,0 +1,241 @@
+<div class="row">
+  <h2 class="mb-4" *ngIf="!this.snapshot.data.edit">Add stream</h2>
+  <h2 class="mb-4" *ngIf="this.snapshot.data.edit">Edit stream</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <form [formGroup]="newStreamForm">
+      <h4>Info</h4>
+      <br/>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="name" class="form-control-label">Stream name</label>
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder=""
+            formControlName="name"
+            class="form-control">
+          <small
+            class="form-text text-muted"
+            *ngIf="!(name.touched && name.invalid)">
+            Site or operator name
+          </small>
+          <small
+            class="form-text text-invalid"
+            *ngIf="name.touched && name.invalid">
+            Enter any name
+          </small>
+        </div>
+      </div>
+<!--      <div class="row form-group">-->
+<!--        <div class="col-md-2">-->
+<!--          <label for="tagsString" class="form-control-label">Tags</label>-->
+<!--        </div>-->
+<!--        <div class="col-md-4">-->
+<!--          <input-->
+<!--            type="text"-->
+<!--            id="tagsString"-->
+<!--            name="tagsString"-->
+<!--            placeholder="site,blog,youtube,magazine"-->
+<!--            formControlName="tagsString"-->
+<!--            class="form-control">-->
+<!--          <small class="form-text text-muted">Tags, separated by ',', ex.: 'site, blog, channel'</small>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="traffbackLinkId" class="form-control-label">Traffic back link</label>
+        </div>
+        <div class="col-md-4">
+          <app-select
+            class="form-control"
+            id="traffbackLinkId"
+            formControlName="traffbackLinkId"
+            [showSearch]="true"
+            caption="Choose traffic back">
+            <div
+              class="dropdown-item"
+              [attr.data-value]="null">No traffic back
+            </div>
+            <div
+              *ngFor="let traffback of traffbackList"
+              class="dropdown-item"
+              [attr.data-value]="traffback.id">{{traffback.id}}: {{traffback.name}}</div>
+          </app-select>
+          <small
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+        <div class="col-md-1">
+          <button *ngIf="this.snapshot.data.mode !=='admin'" class="btn btn-success"
+                  routerLink="/dashboard/add-link/traffback"><i class="fa fa-plus"></i></button>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="postback" class="form-control-label">Postback links</label>
+        </div>
+        <div class="col-md-4">
+          <app-multi-select
+            class="form-control"
+            id="postback"
+            formControlName="postbackMS"
+            caption="Selected"
+            displayField="name"
+            [selectAll]="false"
+            [additionalDisplayField]="'id'"
+            [model]="postbackList | wrapModelArray">
+          </app-multi-select>
+          <small
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+        <div class="col-md-1">
+          <button *ngIf="this.snapshot.data.mode !=='admin'" class="btn btn-success"
+                  routerLink="/dashboard/add-link/postback"><i class="fa fa-plus"></i></button>
+        </div>
+      </div>
+      <hr>
+      <h4>Offers</h4>
+      <br/>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="offerSubcategory" class="form-control-label">Category</label>
+        </div>
+        <div class="col-md-4">
+          <app-select
+            id="offerSubcategory"
+            caption="Choose offer's category"
+            class="form-control"
+            formControlName="offerSubcategory"
+            #offerSubcategorySelect>
+            <div
+              class="dropdown-item"
+              *ngFor="let offerSubcategory of offerSubcategories"
+              [attr.data-value]="offerSubcategory.id">{{offerSubcategory.name | titlecase}}</div>
+          </app-select>
+          <small
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="countriesMS" class="form-control-label">Country</label>
+        </div>
+        <div class="col-md-4">
+          <app-multi-select
+            class="form-control"
+            formControlName="countriesMS"
+            id="countriesMS"
+            displayField="enName"
+            [selectAll]="false"
+            [additionalDisplayField]="'id'"
+            [model]="this.countries | wrapModelArray"
+            #countriesMS>
+          </app-multi-select>
+          <small
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="offersMS" class="form-control-label">Offers</label>
+        </div>
+        <div class="col-md-4">
+          <app-multi-select
+            class="form-control"
+            id="offersMS"
+            formControlName="offersMS"
+            [selectAll]="false"
+            [additionalDisplayField]="'id'"
+            [model]="filteredOffers | wrapModelArray"
+            #offersMS>
+          </app-multi-select>
+          <small
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <hr>
+      <div class="row" *ngIf="disabledOffers.length > 0">
+        <div class="col-6">
+          <div class="alert alert-danger"
+               role="alert">
+            <i class="fa fa-exclamation-triangle"></i> Disabled or deleted offers will be removed from stream after saving.
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="container-fluid">
+            <div class="row">
+              <button
+                title="This offer is not available or deleted"
+                class="btn btn-outline-grey btn-offer"
+                disabled="disabled"
+                *ngFor="let offer of disabledOffers"
+                [ngClass]="{'opened' : chosenOfferId == offer.id}">
+                {{offer.name}}
+              </button>
+              <button
+                class="btn btn-outline-grey btn-offer"
+                *ngFor="let offer of selectedOffers"
+                [ngClass]="{'opened' : chosenOfferId == offer.id}"
+                (click)="onLandingSelect(offer)">
+                {{offer.name}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-12">
+        </div>
+      </div>
+      <div class="row">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-6" *ngFor="let page of landingsDisplay | keyvalue; let i = index">
+              <app-landing-page-card [model]="page.value" (click)="checkLandingPagesSelected()"></app-landing-page-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div
+        class="col-md-6">
+        <div *ngIf="name.invalid && (newStreamForm.invalid && newStreamForm.touched)" class="alert alert-danger"
+             role="alert">
+          Enter valid name
+        </div>
+        <div *ngIf="landingChooser.touched && landingChooser.invalid" class="alert alert-danger" role="alert">
+          Choose at least one landing page
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <app-progress-button [processing]="processing" *ngIf="!this.snapshot.data.edit" (click)="onSubmit()">Create
+        </app-progress-button>
+        <app-progress-button [processing]="processing" *ngIf="this.snapshot.data.edit" (click)="onSubmit()">Save
+        </app-progress-button>
+        <button
+          class="btn btn-black btn-bold" backButton>Back
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

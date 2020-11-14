@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.ci.name }}
+  namespace: {{ .Values.ci.namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.ci.name }}
+      instance: {{ .Release.Name }}
+  replicas: 1 # note that this can be different in reality
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.ci.name }}
+        instance: {{ .Release.Name }}
+        tier: frontend
+        type: platform
+        managed-by: {{ .Release.Service }}
+    spec:
+      imagePullSecrets:
+      - name: registry-auth
+      containers:
+      - name: {{ .Values.ci.name }}
+        image: {{ .Values.ci.image }}
+        ports:
+        - name: http
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /robots.txt
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /robots.txt
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        {{- if or (eq .Values.ci.extras.refname "master") (eq .Values.ci.extras.production true)}}
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
+        {{- else}}
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
+        {{- end}}

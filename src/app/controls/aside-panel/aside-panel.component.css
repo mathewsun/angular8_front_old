@@ -1,0 +1,35 @@
+.navbar-sidebar {
+  padding: 18px;
+}
+
+.admin {
+  background-color: #000;
+}
+
+.manager-contact {
+  padding: 18px;
+}
+
+.icons {
+  padding: 18px 0 0 0;
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+i.icon {
+  justify-self: auto;
+  transition: color 0.4s;
+  color: #656876
+}
+
+i.icon:hover {
+  color: #6b9b17;
+}
+
+.manager-name {
+  font-weight: 800;
+}
+
+.manager-label {
+  font-weight: 200;
+}

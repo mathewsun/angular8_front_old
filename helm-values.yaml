@@ -1,0 +1,29 @@
+deployment:
+  tier: frontend
+  spec:
+    replicas: 1
+
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "100m"
+      limits:
+        memory: "100Mi"
+        cpu: "100m"
+
+
+service:
+  enabled: true
+  servicePort: 80
+  podPort: 80
+  ingress:
+    internal:
+    # braces required !!
+    - hostname: "{{ .Values.ci.name }}.{{ .Values.ci.namespace }}.k2.env.timo.group"
+
+
+metrics:
+  enabled: false
+  servicePort: 80
+  podPort: null
+

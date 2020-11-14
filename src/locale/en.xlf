@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+
+      <trans-unit id="sidebar-menu" datatype="html">
+        <source>{model.name, select, role {role}}</source>
+        <target>
+          {model.name, select,
+            statistics {Statistics}
+            instruments {Tools}
+              streams {Streams}
+              traffback-list {Traffic back links}
+              postback-list {Postback links}
+            offers {Offers}
+              all-offers {All offers}
+              my-offers {My offers}
+              private-offers {Private offers}
+            landing-pages {Landing pages}
+            support {Support}
+            admin {Admin area}
+              users {Users}
+              finance {Finance}
+            faq {FAQ}
+            }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/aside-panel/nav-item/nav-item.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="stat-predefined-periods" datatype="html">
+        <source>{period, select, period {period}}</source>
+        <target>
+          {period, select,
+            today {Today}
+            yesterday {Yesterday}
+            week {Week}
+            month {Month}
+            thisMonth {This month}
+            lastMonth {Last month}
+            }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/aside-panel/nav-item/nav-item.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+
+
+      <trans-unit id="stat-group-by" datatype="html">
+        <source>{groupBy, select, groupBy {groupBy}}</source>
+        <target>
+          {groupBy, select,
+            0 {Hour}
+            1 {Day}
+            2 {Week}
+            3 {Month}
+            stream {Stream}
+            offer {Offer}
+            user {Webmaster}
+            }</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/controls/aside-panel/nav-item/nav-item.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+
+      <trans-unit id="stat-total" datatype="html">
+        <source>Total:</source>
+        <target>Total:</target>
+      </trans-unit>
+
+      <trans-unit id="stat-no-info" datatype="html">
+        <source>No information on selected interval.</source>
+        <target>No information on selected interval.</target>
+      </trans-unit>
+
+      <trans-unit id="auth-email" datatype="html">
+        <source>Email address</source>
+        <target>Email address</target>
+      </trans-unit>
+
+      <trans-unit id="eula-accept" datatype="html">
+        <source>I have read and accept the</source>
+        <target>I have read and accept the</target>
+      </trans-unit>
+
+      <trans-unit id="eula-accept-link" datatype="html">
+        <source>terms and conditions</source>
+        <target>&nbsp;terms and conditions</target>
+      </trans-unit>
+
+    </body>
+  </file>
+</xliff>

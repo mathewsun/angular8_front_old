@@ -1,0 +1,13 @@
+<div class="question">
+  <div class="question-text" (click)="toggle()">
+    <i class="fas fa-question-circle"></i>
+    &nbsp;
+    <b>{{question.text}}</b>
+  </div>
+  <div
+    class="question-answer"
+    [@expandHide]="isExpanded ? 'expand' : 'hide'"
+  >
+    <div [innerHTML]="question.answer"></div>
+  </div>
+</div>

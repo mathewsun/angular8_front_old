@@ -1,0 +1,16 @@
+<div class="file-input" [ngClass]="'shape-'+type" (dragover)="onDragOver($event)" (drop)="onFileDrop($event)"
+     (click)="openFileDialog()">
+  <input type="file" (change)="onFileSelect($event)" style="display: none;" #fileInput accept=".jpg, .jpeg, .png, .gif"/>
+  <div class="text" [ngClass]="{hide: value}">
+    choose file
+    <br/>
+    or drop file here
+  </div>
+  <div class="image-wrapper">
+    <div
+      class="image"
+      [style.background-image]="imgUrl"
+      [ngClass]="{'empty' : !this.value}"
+      id='img-upload'></div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+.fa-exclamation-circle:before {
+  display: block;
+  background-size: 1em 1em;
+  height: 1em;
+  width: 1em;
+  content: " ";
+  background-image: url('src/assets/images/exclamation.svg');
+}
+
+.prohibited {
+  color: red;
+}
+
+.allowed {
+  color: #c0d29c;
+}
+
+.agreement {
+  color: #ffd100;
+}

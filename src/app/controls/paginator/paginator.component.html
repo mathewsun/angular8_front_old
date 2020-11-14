@@ -1,0 +1,36 @@
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" aria-label="First" (click)="goToFirst()">
+        <span aria-hidden="true">
+          <i class="fas fa-angle-double-left"></i>
+        </span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" aria-label="Previous" (click)="goToPrevious()">
+        <span aria-hidden="true">
+          <i class="fas fa-angle-left"></i>
+        </span>
+      </a>
+    </li>
+    <ng-container *ngFor="let page of pageButtons">
+      <li class="page-item" [ngClass]="{'active' : page == selected}">
+        <a class="page-link" (click)="goTo(page)">{{page}}</a>
+      </li>
+    </ng-container>
+    <li class="page-item">
+      <a class="page-link" aria-label="Next" (click)="goToNext()">
+        <span aria-hidden="true"><i class="fas fa-angle-right"></i>
+        </span>
+      </a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" aria-label="Last" (click)="goToLast()">
+        <span aria-hidden="true">
+          <i class="fas fa-angle-double-right"></i>
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>

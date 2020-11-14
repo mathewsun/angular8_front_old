@@ -1,0 +1,28 @@
+<div class="page-wrapper">
+  <div class="page-content--bge5">
+    <div class="container">
+      <div class="login-wrap">
+        <div class="login-content">
+          <div class="login-logo">
+            <a href="#">
+              <img src="assets/images/logo.png" alt="Click2Money">
+            </a>
+          </div>
+          <div class="login-form">
+            <div class="alert alert-danger" *ngIf="message">
+              {{message}}
+            </div>
+            <div *ngIf="!token; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock>
+              <h4>Email confirmation has been sent</h4>
+            </ng-template>
+            <ng-template #elseBlock>
+              <h4>{{validationStateMessage}}</h4>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,20 @@
+<aside class="menu-sidebar d-none d-lg-block">
+  <div class="logo" [ngClass]="{'admin' : isAdmin}">
+    <a routerLink="/dashboard">
+      <img *hasNotRole="['Superuser']" width="100%" height="100%" class="img--logo" src="assets/images/logo_c2m.svg" alt="click2money">
+      <img *hasRole="['Superuser']" width="100%" height="100%" class="img--logo" src="assets/images/logo_white_c2m.svg" alt="click2money">
+    </a>
+  </div>
+  <nav class="navbar-sidebar">
+    <app-nav-item-list></app-nav-item-list>
+  </nav>
+  <div class="manager-contact">
+    <h6>Ваш менеджер:</h6>
+    <h5 class="manager-name">Щемелинин Дмитрий</h5>
+    <div class="icons">
+      <a href="https://t.me/DSC2M" target="_blank"><i class="fab fa-2x fa-telegram-plane icon"></i></a>
+      <a href="skype:live:76591ff4cce37a63?chat" target="_blank"><i class="fab fa-2x fa-skype icon"></i></a>
+      <a href="mailto:ds@click2.money" target="_blank"><i class="fas fa-2x fa-envelope icon"></i></a>
+    </div>
+  </div>
+</aside>

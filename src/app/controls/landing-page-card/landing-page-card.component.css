@@ -1,0 +1,55 @@
+.landing-page-card {
+  overflow: hidden;
+  border: 1px #cacbcf solid;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 3px;
+  /*width: 688px;*/
+  /*height: 388px;*/
+}
+
+.landing-page-card.selected{
+  border-radius: 3px;
+  border: 2px solid #81b616;
+  padding: 24px;
+}
+
+.landing-page-card .content {
+  margin: 5px;
+  transition: transform 0.3s;
+}
+
+.landing-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 215px;
+}
+
+.pic-container {
+  height: 100%;
+}
+
+.landingImage {
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.format {
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.no-left-padding {
+  padding-left: 0 !important;
+}
+
+.landing-card-info {
+  min-height: 158px;
+}
+
+.image-wrapper {
+  overflow: hidden;
+}

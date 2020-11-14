@@ -1,0 +1,35 @@
+.prohibited {
+  color: red;
+}
+
+.allowed {
+  color: #81b616;
+}
+
+.agreement {
+  color: #ffd100;
+}
+
+.chosen {
+  border: #81b616 3px solid;
+}
+
+.landing-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.format {
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.fa-exclamation-circle:before {
+  display: block;
+  background-size: 1em 1em;
+  height: 1em;
+  width: 1em;
+  content: " ";
+  background-image: url('src/assets/images/exclamation.svg');
+}

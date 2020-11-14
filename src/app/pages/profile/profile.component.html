@@ -1,0 +1,395 @@
+<div class="row">
+  <h2 class="mb-4">Profile</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+
+    <div class="row">
+      <div class="col-lg-6">
+        <form [formGroup]="profileForm">
+          <h4 class="mb-5">{{user?.mail}}</h4>
+          <div class="row form-group">
+            <div class="offset-md-3 col-md-9">
+              <app-file-upload-input
+                id="imageFile"
+                formControlName="picture"
+                type="avatar"
+                [src]="user?.profile.picture | imageIdToLink:'avatar'">
+              </app-file-upload-input>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'">
+              </small>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="firstName" class="form-control-label">First name</label>
+            </div>
+            <div class="col-md-7">
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                class="form-control"
+                formControlName="firstName">
+              <small
+                class="form-text small-placeholder"
+                *ngIf="firstName.valid"
+                [innerHTML]="'&nbsp;'">
+              </small>
+              <small
+                class="form-text small-placeholder text-invalid"
+                *ngIf="firstName.invalid"
+                [innerHTML]="'Не более 50 символов'">
+              </small>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="lastName" class="form-control-label">Last name</label>
+            </div>
+            <div class="col-md-7">
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                class="form-control"
+                formControlName="lastName">
+              <small
+                class="form-text small-placeholder"
+                *ngIf="lastName.valid"
+                [innerHTML]="'&nbsp;'">
+              </small>
+              <small
+                class="form-text small-placeholder text-invalid"
+                *ngIf="lastName.invalid"
+                [innerHTML]="'Не более 50 символов'">
+              </small>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="mobile" class="form-control-label">Mob. number</label>
+            </div>
+            <div class="col-md-7">
+              <input
+                type="text"
+                id="mobile"
+                name="mobile"
+                class="form-control"
+                formControlName="mobile">
+              <small
+                class="form-text small-placeholder"
+                *ngIf="mobile.valid"
+                [innerHTML]="'&nbsp;'">
+              </small>
+              <small
+                class="form-text small-placeholder text-invalid"
+                *ngIf="mobile.invalid"
+                [innerHTML]="'Не более 64 символов'">
+              </small>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="postback" class="form-control-label">Postback link</label>
+            </div>
+            <div class="col-md-7">
+              <app-select
+                class="form-control"
+                id="postback"
+                formControlName="postbackLinkId"
+                [showSearch]="true"
+                caption="No postback">
+                <div
+                  class="dropdown-item"
+                  [attr.data-value]="null">No postbacks
+                </div>
+                <div
+                  *ngFor="let postback of postbackList"
+                  class="dropdown-item"
+                  [attr.data-value]="postback.id">{{postback.id}}: {{postback.name}}</div>
+              </app-select>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'">
+              </small>
+            </div>
+            <div class="col-md-1">
+              <button *ngIf="this._routeSnapshot.data.mode !== 'admin'" class="btn btn-success"
+                      routerLink="/dashboard/add-link/postback"><i class="fa fa-plus"></i></button>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="timeZone" class="form-control-label">Time zone</label>
+            </div>
+            <div class="col-md-7">
+              <app-select
+                class="form-control"
+                id="timeZone"
+                formControlName="timeZone"
+                [showSearch]="true"
+                caption="Select timezone">
+                <div
+                  *ngFor="let tz of timezoneList"
+                  class="dropdown-item"
+                  [attr.data-value]="tz.tz">{{tz.label}}</div>
+              </app-select>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'">
+              </small>
+            </div>
+          </div>
+
+          <h4 class="mb-5">Contacts</h4>
+
+          <div
+            formArrayName="contactsSubForm"
+            *ngFor="let contact of ['skype', 'telegram','vkontakte','facebook','searchengines'] ; let i = index; trackBy: contactsTrackFn">
+
+            <div [formGroupName]="contact" class="row form-group">
+              <div class="col-md-3">
+                <label [for]="contact">{{ profileForm.get('contactsSubForm').get(contact).value.name}}</label>
+              </div>
+              <div class="col-md-7">
+                <input
+                  type="text"
+                  name="value"
+                  [id]="contact"
+                  class="form-control"
+                  formControlName="value">
+                <small
+                  class="form-text small-placeholder"
+                  *ngIf="profileForm.get('contactsSubForm').get(contact).valid"
+                  [innerHTML]="'&nbsp;'">
+                </small>
+                <small
+                  class="form-text small-placeholder text-invalid"
+                  *ngIf="profileForm.get('contactsSubForm').get(contact).invalid"
+                  [innerHTML]="'Не более 64 символов'">
+                </small>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-6">
+        <form [formGroup]="changePassForm">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="mb-5">Change password</h4>
+              <div class="row form-group" *ngIf="this._routeSnapshot.data.mode!=='admin'">
+                <div class="col-md-3">
+                  <label for="currentPassword" class="form-control-label">Current password</label>
+                </div>
+                <div class="col-md-7">
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    class="form-control"
+                    formControlName="currentPassword">
+                  <small
+                    class="form-text small-placeholder"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-3">
+                  <label for="newPassword" class="form-control-label">New password</label>
+                </div>
+                <div class="col-md-7">
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    class="form-control"
+                    formControlName="newPassword">
+                  <small
+                    *ngIf="((newPassword.valid) && (newPassword.touched) || newPassword.untouched)"
+                    class="form-text small-placeholder"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                  <small
+                    class="form-text small-placeholder text-invalid"
+                    *ngIf="(newPassword.invalid) && (newPassword.touched)"
+                    [innerHTML]="'Пароль должен быть длиннее 6 символов'">
+                  </small>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-3">
+                  <label for="repeatNewPassword" class="form-control-label">Repeat new password</label>
+                </div>
+                <div class="col-md-7">
+                  <input
+                    type="password"
+                    id="repeatNewPassword"
+                    name="repeatNewPassword"
+                    class="form-control"
+                    formControlName="repeatNewPassword">
+                  <small
+                    *ngIf="((repeatNewPassword.valid) && (repeatNewPassword.touched) || repeatNewPassword.untouched)"
+                    class="form-text small-placeholder"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                  <small
+                    class="form-text small-placeholder text-invalid"
+                    *ngIf="(repeatNewPassword.invalid) && (repeatNewPassword.touched)"
+                    [innerHTML]="'Пароль должен быть длиннее 6 символов'">
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 mb-5">
+              <app-progress-button (click)="changePassword()" #passwordButton>
+                Change
+              </app-progress-button>
+            </div>
+          </div>
+        </form>
+        <div class="row" *hasRole="['Superuser']">
+          <div class="col-12">
+            <h4 class="mb-5">Admin actions</h4>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col-2">{{user.confirmed ? 'Confirmed' : 'Not confirmed'}}</div>
+              <div
+                class="col-6">{{user.confirmationDate ? (user.confirmationDate | date:"yyy.MM.dd HH:mm Z") : '-'}}</div>
+              <div class="col-2">
+                <app-progress-button *ngIf="!user.confirmed" (click)="confirm()" #confirmButton>Confirm
+                </app-progress-button>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col-2">
+                {{user.active ? 'Active' : 'Not active'}}
+              </div>
+              <div
+                class="col-5">{{user.activationDate ? (user.activationDate | date:"yyy.MM.dd HH:mm Z") : '-'}}
+              </div>
+            </div>
+            <div class="row mb-5">
+              <div class="col-12">
+                <app-progress-button *ngIf="!user.active" (click)="activate()" #activateButton>
+                  Activate
+                </app-progress-button>
+                <app-progress-button *ngIf="user.active" (click)="deactivate()">
+                  Deactivate
+                </app-progress-button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <form [formGroup]="rolesFormGroup">
+                  <h4 class="mb-5">Roles</h4>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-12">
+                          <h5 class="mb-3">Available</h5>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" *ngFor="let role of filterRoles(roles, user.roles)">
+                          <div class="form-control" (click)="addRole(role)">
+                            <i class="fa fa-plus"></i> {{role.name}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="col-12">
+                        <h5 class="mb-3">Current</h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-12" *ngFor="let role of orderById(user.roles)">
+                          <div class="form-control" (click)="removeRole(role)">
+                            <i class="fa fa-minus"></i> {{role.name}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                    <div class="col-2">
+                      <app-progress-button (click)="applyRoles()" #applyRolesButton>
+                        Apply
+                      </app-progress-button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-12">
+                <form [formGroup]="percentFormGroup">
+                  <h4 class="mb-5">Percent</h4>
+                  <div class="row form-group">
+                    <div class="col-md-3">
+                      <label for="percent" class="form-control-label">Custom percent</label>
+                    </div>
+                    <div class="col-md-7">
+                      <input
+                        type="text"
+                        id="percent"
+                        name="percent"
+                        class="form-control"
+                        formControlName="percentInput">
+                      <small
+                        class="form-text small-placeholder"
+                        *ngIf="percentInput.untouched || percentInput.valid"
+                        [innerHTML]="'&nbsp;'">
+                      </small>
+                      <small
+                        class="form-text small-placeholder text-invalid"
+                        *ngIf="percentInput.invalid && percentInput.touched"
+                        [innerHTML]="'Enter percent between 0 and 100'">
+                      </small>
+                    </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                    <div class="col-2">
+                      <app-progress-button (click)="applyPercent()" #applyPercentButton>
+                        Apply
+                      </app-progress-button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <app-progress-button
+          [processing]="processing"
+          (click)="saveChanges()">
+          Save
+        </app-progress-button>
+      </div>
+      <div class="col-10">
+        <button
+          *hasRole="['Superuser']"
+          class="btn btn-outline-black btn-bold float-right"
+          routerLink="/admin/custom-payout/by-user/{{user.id}}">
+          Custom payout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

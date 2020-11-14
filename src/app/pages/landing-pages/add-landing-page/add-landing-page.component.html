@@ -1,0 +1,147 @@
+<div class="row">
+  <h2 class="mb-4">{{snapshot.data.edit ? 'Edit' : 'Add'}} landing page</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <form [formGroup]="landingPageForm">
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="name" class=" form-control-label">Page name</label>
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="name"
+            name="name"
+            formControlName="name"
+            class="form-control">
+          <small
+            class="form-text text-invalid"
+            *ngIf="name.touched && name.invalid">
+            Enter any name
+          </small>
+          <small
+            class="form-text small-placeholder"
+            *ngIf="!(name.touched && name.invalid)"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="linkTemplate" class=" form-control-label">URL</label>
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="linkTemplate"
+            name="linkTemplate"
+            formControlName="linkTemplate"
+            placeholder=""
+            class="form-control">
+          <small
+            class="form-text text-invalid"
+            *ngIf="linkTemplate.touched && linkTemplate.invalid">
+            Enter valid url {{'{'}}CID{{'}'}} and {{'{'}}USER{{'}'}} are required
+          </small>
+          <small
+            class="form-text small-placeholder"
+            *ngIf="!(linkTemplate.touched && linkTemplate.invalid)"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="linkTemplate" class=" form-control-label">Observe URL</label>
+        </div>
+        <div class="col-md-4">
+          <input
+            type="text"
+            id="observeLink"
+            name="observeLink"
+            formControlName="observeLink"
+            placeholder=""
+            class="form-control">
+          <small
+            class="form-text text-invalid"
+            *ngIf="observeLink.touched && observeLink.invalid">
+            Enter valid url
+          </small>
+          <small
+            class="form-text small-placeholder"
+            *ngIf="!(observeLink.touched && observeLink.invalid)"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label for="image" class=" form-control-label ">Image</label>
+        </div>
+        <div class="col-md-4">
+          <app-file-upload-input id="image" formControlName="image" [type]="fileUploadType"></app-file-upload-input>
+          <small
+            class="form-text text-invalid"
+            *ngIf="image.invalid && image.touched">
+            Upload valid image
+          </small>
+          <small
+            class="form-text small-placeholder"
+            *ngIf="!(image.invalid && image.touched)"
+            [innerHTML]="'&nbsp;'">
+          </small>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-md-2">
+          <label class="form-control-label">Landing type</label>
+        </div>
+        <div class="col-md-4">
+          <div class="row form-subgroup" *ngFor="let item of landingTypeSelector; let i = index">
+            <div class="col-4">{{item.type}}</div>
+            <div class="col-6">
+              <label class="switch switch-3d switch-success mr-3">
+                <input
+                  type="checkbox"
+                  class="switch-input"
+                  [checked]="item.selected"
+                  [id]="i"
+                  (change)="onTypeSelectorChange(i)"
+                  [disabled]="item.selected">
+                <span class="switch-label"></span>
+                <span class="switch-handle"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div
+          class="col-md-6">
+          <div *ngIf="name.invalid && name.touched" class="alert alert-danger" role="alert">
+            Enter valid name
+          </div>
+          <div *ngIf="linkTemplate.invalid && linkTemplate.touched" class="alert alert-danger" role="alert">
+            Enter valid URL: {{'{'}}CID{{'}'}} and {{'{'}}USER{{'}'}} are required
+          </div>
+          <div *ngIf="observeLink.invalid && observeLink.touched" class="alert alert-danger" role="alert">
+            Enter valid observe URL
+          </div>
+          <div *ngIf="image.invalid && image.touched" class="alert alert-danger" role="alert">
+            Upload valid image
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-6">
+        <app-progress-button [processing]="processing"
+                             (click)="onSubmit()">{{snapshot.data.edit ? 'Save' : 'Create'}}</app-progress-button>
+        <button
+          class="btn btn-black btn-bold" backButton>Back
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

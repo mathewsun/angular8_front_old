@@ -1,0 +1,15 @@
+<div [ngClass]="{ 'container-fluid' : mobile, 'menu-sidebar__content js-scrollbar1 ps' : !mobile}">
+  <ul class="list-unstyled" [ngClass]="{ 'navbar-mobile__list pl-2' : mobile, 'navbar__list' : !mobile}">
+    <li
+      *ngFor="let item of navbarElements, let i = index"
+      style="cursor: pointer">
+      <app-nav-item (click)="expandItem(i)" [expanded]="item.expanded" [model]="item"></app-nav-item>
+    </li>
+  </ul>
+  <div class="ps__rail-x">
+    <div class="ps__thumb-x" tabindex="0"></div>
+  </div>
+  <div class="ps__rail-y">
+    <div class="ps__thumb-y" tabindex="0"></div>
+  </div>
+</div>

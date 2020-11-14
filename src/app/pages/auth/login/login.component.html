@@ -1,0 +1,66 @@
+<div class="page-wrapper">
+  <div class="page-content">
+    <div class="container">
+      <div class="login-wrap">
+        <div class="login-content" style="border-radius: 3px;">
+          <div class="login-logo">
+            <img src="assets/images/logo_c2m.svg" alt="Click2Money" style="height: 100px;">
+          </div>
+          <div class="login-form">
+            <div class="alert alert-danger" *ngIf="message">
+              {{message}}
+            </div>
+            <form [formGroup]="loginForm">
+              <div class="form-group">
+                <label for="mail" class="form-control-label" i18n="@@auth-email">Email Address</label>
+                <input
+                  id="mail"
+                  type="text"
+                  name="mail"
+                  placeholder=""
+                  class="form-control"
+                  formControlName="mail">
+              </div>
+              <div class="form-group">
+                <label for="password" class="form-control-label">Password</label>
+                <input
+                  id="password"
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  placeholder=""
+                  formControlName="password">
+              </div>
+              <div class="login-checkbox">
+                <label>
+                  <input formControlName="persistent" type="checkbox" name="remember">Remember Me
+                </label>
+                <label>
+                  <a href="#">Forgot Password?</a>
+                </label>
+              </div>
+              <button class="au-btn au-btn--block au-btn--green m-b-20" [ngClass]="{'button-progress': processing}"
+                      (click)="onLogin()">sign in
+              </button>
+            </form>
+            <div class="row">
+              <div class="col-10">
+                <div class="register-link" style="padding: 6px 0">
+                  <p>
+                    Don't have account?
+                    <a routerLink="/sign-up">Sign Up Here</a>
+                  </p>
+                </div>
+              </div>
+              <div class="col-2">
+                <app-language-selector [arrow]="true"></app-language-selector>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

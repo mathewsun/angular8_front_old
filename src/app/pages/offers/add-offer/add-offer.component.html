@@ -1,0 +1,484 @@
+<div class="row">
+  <h2 class="mb-4">{{snapshot.data.edit ? 'Edit offer' : 'Add offer'}}</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <form [formGroup]="newOfferForm">
+      <div class="row">
+        <div class="col-lg-7">
+          <h4>Main info</h4>
+          <br/>
+          <!--          Name -->
+          <div class="row form-group">
+            <div class="col-lg-3">
+              <label for="offer-name" class=" form-control-label">Name</label>
+            </div>
+            <div class="col-lg-8">
+              <input
+                type="text"
+                id="offer-name"
+                class="form-control"
+                formControlName="name">
+              <small
+                class="form-text text-invalid"
+                *ngIf="name.invalid && name.touched">
+                Enter offer's name
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(name.invalid && name.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Logo -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label class="form-control-label ">Offer's logo</label>
+            </div>
+            <div class="col-md-8">
+              <app-file-upload-input type="offer" formControlName="image"></app-file-upload-input>
+              <small
+                class="form-text text-invalid"
+                *ngIf="image.invalid && image.touched">
+                Upload valid image
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(image.invalid && image.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Short desc -->
+          <div class="row form-group">
+            <div class="col-lg-3">
+              <label for="shortDescription" class=" form-control-label">Short description</label>
+            </div>
+            <div class="col-lg-8">
+              <textarea
+                rows="3"
+                type="text"
+                id="shortDescription"
+                name="shortDescription"
+                class="form-control"
+                formControlName="shortDescription"
+                placeholder=""></textarea>
+              <div class="row">
+                <div class="col-md-9">
+                  <small
+                    class="form-text text-muted"
+                    *ngIf="!(shortDescription.invalid && shortDescription.touched) && this.shortDescription.value.length <= 250">
+                    Offer's short description
+                  </small>
+                  <small
+                    class="form-text text-invalid"
+                    *ngIf="shortDescription.invalid && shortDescription.touched && this.shortDescription.value.length == 0">
+                    Enter short description
+                  </small>
+                  <small
+                    class="form-text text-invalid"
+                    *ngIf="this.shortDescription.value.length > 250">
+                    Short description is too long
+                  </small>
+                </div>
+                <div class="col-md-3">
+                  <small
+                    class="form-text text-muted float-right"
+                    *ngIf="this.shortDescription.value.length <= 240">
+                    {{this.shortDescription.value.length}} / 250
+                  </small>
+                  <small
+                    class="form-text text-muted float-right"
+                    *ngIf="this.shortDescription.value.length > 240 && this.shortDescription.value.length <= 250">
+                    {{250 - this.shortDescription.value.length}} left
+                  </small>
+                  <small
+                    class="form-text text-invalid float-right"
+                    *ngIf="this.shortDescription.value.length > 250">
+                    {{this.shortDescription.value.length - 250}} exceeded
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--          Full desc -->
+          <div class="row form-group">
+            <div class="col-lg-3">
+              <label for="description" class="form-control-label">Offer's description</label>
+            </div>
+            <div class="col-lg-8">
+              <textarea
+                name="description"
+                id="description"
+                rows="4"
+                placeholder="Use HTML"
+                formControlName="description"
+                class="form-control"></textarea>
+              <small
+                class="form-text text-invalid"
+                *ngIf="description.invalid && description.touched">
+                Enter full offer's description
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(description.invalid && description.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Type -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="type" class="form-control-label">Category / Subcategory</label>
+            </div>
+            <div class="col-md-8">
+              <app-select
+                id="type"
+                class="form-control"
+                caption=""
+                formControlName="subcategoryId">
+                <div
+                  *ngFor="let offerSubcategory of offerSubcategories"
+                  class="dropdown-item"
+                  [attr.data-value]="offerSubcategory.id">{{offerSubcategory.categoryId}}: {{offerSubcategory.categoryName | titlecase}} / {{offerSubcategory.id}}: {{offerSubcategory.name | titlecase}}</div>
+              </app-select>
+              <small
+                class="form-text text-invalid"
+                *ngIf="subcategoryId.invalid && subcategoryId.touched">
+                Select offer's type
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(subcategoryId.invalid && subcategoryId.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Visible -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="visibility" class="form-control-label">Visible</label>
+            </div>
+            <div class="col-md-8">
+              <app-select
+                (click) = "checkAvailability()"
+                id="visibility"
+                class="form-control"
+                formControlName="visibility"
+                caption="">
+                <div
+                  *ngFor="let offerVisibility of offerVisibilityEnum | enumToArray"
+                  class="dropdown-item"
+                  [attr.data-value]="offerVisibilityEnum[offerVisibility]">{{offerVisibilityEnum[offerVisibility]}}: {{offerVisibility}}</div>
+              </app-select>
+              <small
+                class="form-text text-invalid"
+                *ngIf="visibility.invalid && visibility.touched">
+                Choose visibility
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(visibility.invalid && visibility.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Enabled -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label for="enabled" class="form-control-label">Enabled</label>
+            </div>
+            <div class="col-md-8">
+              <label class="switch switch-3d switch-success mr-3">
+                <input
+                  (click) = "checkAvailability()"
+                  id="enabled"
+                  type="checkbox"
+                  class="switch-input"
+                  checked="checked"
+                  formControlName="enabled">
+                <span class="switch-label"></span>
+                <span class="switch-handle"></span>
+              </label>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'">
+              </small>
+            </div>
+          </div>
+          <!--          Currency -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label class="pr-1 form-control-label" for="currency">Offer currency:</label>
+            </div>
+            <div class="col-md-8">
+              <app-select
+                id="currency"
+                class="form-control"
+                formControlName="currencyId"
+                caption="">
+                <div
+                  *ngFor="let currency of currencies"
+                  class="dropdown-item"
+                  [attr.value]="currency.id">{{currency.id}}: {{currency.isoCode}} {{currency.symbol}}</div>
+              </app-select>
+              <small
+                class="form-text text-invalid"
+                *ngIf="currencyId.invalid && currencyId.touched">
+                Choose currency
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(currencyId.invalid && currencyId.touched)">
+              </small>
+            </div>
+          </div>
+          <!--          Geo -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label class="pr-1 form-control-label">Offer's geo:</label>
+            </div>
+            <div class="col-md-8">
+              <app-multi-select
+                class="form-control"
+                formControlName="countries"
+                displayField="enName"
+                [selectAll]="!snapshot?.data.edit"
+                [additionalDisplayField]="'id'"
+                [model]="this.countries | wrapModelArray"
+                #geo>
+              </app-multi-select>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'">
+              </small>
+            </div>
+          </div>
+          <!-- Fallback offer -->
+          <div class="row form-group">
+            <div class="col-md-3">
+              <label class="pr-1 form-control-label">Fallback offer:</label>
+            </div>
+            <div class="col-md-8">
+              <app-select
+                caption="Select offer"
+                class="form-control"
+                formControlName="fallbackOfferId"
+                [showSearch]="true"
+                #fallbackOffer>
+                <div *ngFor="let offer of offerList" class="dropdown-item" [attr.data-value]="offer.id">{{offer.id}}: {{offer.name}}</div>
+              </app-select>
+              <small
+                class="form-text text-invalid"
+                *ngIf="fallbackOfferId.invalid && fallbackOfferId.touched">
+                Select fallback offer or enable / set offer's visibility to public
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(fallbackOfferId.invalid && fallbackOfferId.touched)">
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!--        Traffic sources select        -->
+
+        <div class="col-lg-5">
+          <div class="row">
+            <div class="col-lg-12">
+              <h4>Traffic sources</h4>
+              <br/>
+              <traffic-sources formControlName="trafficSources"></traffic-sources>
+              <small
+                class="form-text text-invalid"
+                *ngIf="trafficSources.hasError('invalid') == true && trafficSources.touched">
+                Choose at least one traffic source
+              </small>
+              <small
+                class="form-text small-placeholder"
+                [innerHTML]="'&nbsp;'"
+                *ngIf="!(trafficSources.hasError('invalid') == true && trafficSources.touched)">
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h4>Actions</h4>
+          <br/>
+          <table class="table table-bordered mb-3">
+            <thead>
+            <tr>
+              <td class="td-2">Name</td>
+              <td class="td-2">URL key</td>
+              <td class="td-2">Price</td>
+              <td class="td-1">Override</td>
+              <td class="td-2">Type</td>
+              <td class="td-2">Related</td>
+              <td class="td-1"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+              formArrayName="actions"
+              *ngFor="let action of newOfferForm.get('actions').value; let i = index; trackBy: trackByFnActions">
+              <td [formGroupName]="i+''" class="td-2">
+                <input
+                  type="text"
+                  [id]="'name' + i"
+                  formControlName="name"
+                  class="form-control actions-margin">
+              </td>
+              <td [formGroupName]="i+''" class="td-2">
+                <input
+                  type="text"
+                  [id]="'key' + i"
+                  formControlName="key"
+                  class="form-control actions-margin">
+              </td>
+              <td [formGroupName]="i+''" class="td-2">
+                <input
+                  type="text"
+                  [id]="'payout' + i"
+                  formControlName="payout"
+                  class="form-control actions-margin">
+              </td>
+              <td [formGroupName]="i+''" class="td-1">
+                <label class="switch switch-3d switch-success mr-3 override-margin">
+                  <input
+                    formControlName="allowPayoutOverride"
+                    checked="false"
+                    class="switch-input"
+                    [id]="'override' + i"
+                    type="checkbox">
+                  <span class="switch-label"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </td>
+              <td [formGroupName]="i+''" class="td-2">
+                <select
+                  class="form-control actions-margin"
+                  formControlName="type"
+                  [id]="'type' + i">
+                  <option
+                    *ngFor="let actionPayoutType of actionPayoutTypeEnum | enumToArray"
+                    value="{{actionPayoutTypeEnum[actionPayoutType]}}">{{actionPayoutTypeEnum[actionPayoutType]}}: {{actionPayoutType}}</option>
+                </select>
+              </td>
+              <td [formGroupName]="i+''" class="td-2">
+                <select
+                  class="form-control actions-margin"
+                  formControlName="relatedActionKey" #sel
+                  [selectedIndex]="!this.snapshot.data.edit ? 0 : actionControls[i].get('relatedIndex').value"
+                  [ngModel]="sel.selectedIndex==0 ? null : newOfferForm.get('actions').value[sel.selectedIndex-1].key">
+                  <option [value]="null" [defaultSelected]="!this.snapshot.data.edit">None</option>
+                  <ng-template
+                    ngFor let-a
+                    [ngForOf]="newOfferForm.get('actions').value" let-i="index"
+                    [ngForTrackBy]="trackByFnActions">
+                    <option
+                      [hidden]="a.key==action.key"
+                      [value]="a.key">{{a.key}}</option>
+                  </ng-template>
+                </select>
+              </td>
+              <td [formGroupName]="i+''" class="td-1">
+                <button
+                  *ngIf="newOfferForm.get('actions').value.length > 1"
+                  class="btn actions-margin"
+                  (click)="onDeleteAction(i)">
+                  <span class="fa fa-times c2m-grey"></span>
+                </button>
+                <button></button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button
+            class="btn btn-success float-right"
+            (click)="onAddAction()">
+            <i class="fa fa-plus"></i> Add action
+          </button>
+        </div>
+      </div>
+      <br/>
+      <h4>Choose landing pages</h4>
+      <br/>
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-success" routerLink="/dashboard/add-landing-page"><i class="fa fa-plus"></i> Add
+            landing
+          </button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-6" *ngFor="let page of landingPages | keyvalue; let i = index">
+          <app-landing-page-card [model]="page.value"
+                                 (click)="landingPageSelector.touched = true"></app-landing-page-card>
+        </div>
+      </div>
+    </form>
+    <div class="row form-group">
+      <div
+        class="col-md-6">
+        <div *ngIf="name.invalid  && name.touched" class="alert alert-danger" role="alert">
+          Enter valid name
+        </div>
+        <div *ngIf="image.invalid && image.touched" class="alert alert-danger" role="alert">
+          Upload valid image
+        </div>
+        <div *ngIf="shortDescription.invalid && shortDescription.touched" class="alert alert-danger" role="alert">
+          Enter valid short description
+        </div>
+        <div *ngIf="description.invalid && description.touched" class="alert alert-danger" role="alert">
+          Enter valid full description
+        </div>
+        <div *ngIf="currencyId.invalid && currencyId.touched" class="alert alert-danger" role="alert">
+          Enter valid currency
+        </div>
+        <div *ngIf="fallbackOfferId.invalid && fallbackOfferId.touched" class="alert alert-danger" role="alert">
+          Select fallback offer or enable / set offer's visibility to public
+        </div>
+        <div *ngIf="actions.invalid && actions.touched" class="alert alert-danger" role="alert">
+          Enter valid actions
+        </div>
+        <div *ngIf="trafficSources.hasError('invalid') == true && trafficSources.touched" class="alert alert-danger"
+             role="alert">
+          Choose at least one traffic source
+        </div>
+        <div *ngIf="landingPageSelector.touched == false" class="alert alert-danger" role="alert">
+          Choose at least one landing page
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        <app-progress-button *ngIf="snapshot.data.edit" [processing]="processing" (click)="onSubmit()">Save
+        </app-progress-button>
+        <app-progress-button *ngIf="!snapshot.data.edit" [processing]="processing" (click)="onSubmit()">Create
+        </app-progress-button>
+        <button
+          class="btn btn-black btn-bold" backButton>Back
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          *ngIf="snapshot.data.edit"
+          class="btn btn-outline-black btn-bold float-right"
+          routerLink="/admin/custom-payout/by-offer/{{snapshot.data.offer.id}}">
+          Custom payout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

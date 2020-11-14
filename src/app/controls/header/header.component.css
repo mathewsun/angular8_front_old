@@ -1,0 +1,76 @@
+.flag-option:before{
+  content: "<img src='assets/images/flags/ru.png' />";
+}
+
+.dropdown-item{
+  font-size: 14px;
+}
+
+.dropdown-item:hover{
+  color: #fff;
+  background: #81b616;
+}
+
+.admin {
+  background-color: #000;
+}
+
+.admin-text {
+  color: #fff !important;
+}
+
+::ng-deep .admin-text a {
+  color: #fff !important;
+}
+
+.currency-dropdown{
+  left: 60px !important;
+}
+
+.currency-dropdown:after {
+
+  display: block;
+  width: 19px;
+  height: 19px;
+  border-bottom: 9px solid #fff;
+  border-top: 9px solid transparent;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  position: absolute;
+  top: -18px;
+  right: 50px;
+}
+
+.balance-wrap {
+  margin-right: 25px;
+}
+
+.acrobat {
+  font-family: 'Akrobat', sans-serif;
+  font-size: 18px;
+}
+
+.acrobat.regular {
+  font-weight: normal;
+}
+
+.acrobat.bold {
+  font-weight: bold;
+}
+
+.account-item > .content {
+  padding: 0.5rem;
+}
+
+.name {
+  color: #333333;
+}
+
+.loading {
+  -webkit-animation:spin 1.5s ease-in-out infinite;
+  -moz-animation:spin 1.5s ease-in-out infinite;
+  animation:spin 1.5s ease-in-out infinite ;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

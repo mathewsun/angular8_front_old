@@ -1,0 +1,16 @@
+.copy-button {
+  cursor: pointer;
+  white-space: pre;
+}
+
+.copy-button i {
+  transition: color 0.4s;
+}
+
+.copy-button:hover i {
+  color: #6b9b17;
+}
+
+.copy-button {
+  color: inherit;
+}

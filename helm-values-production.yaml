@@ -1,0 +1,28 @@
+deployment:
+  tier: backend
+  spec:
+    replicas: 2
+
+    resources:
+      requests:
+        memory: "50Mi"
+        cpu: "100m"
+      limits:
+        memory: "200Mi"
+        cpu: "200m"
+
+
+service:
+  enabled: true
+  servicePort: 80
+  podPort: 80
+  ingress:
+    internal:
+    - hostname: "tools.click2.money"
+    external: false
+
+metrics:
+  enabled: false
+  servicePort: 80
+  podPort: null
+

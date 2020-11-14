@@ -1,0 +1,10 @@
+<div [class]="'sufee-alert alert with-close alert-dismissible fade show alert-'+CSSClassTypeList[model.type]">
+    <span *ngIf="model.badge"
+          [class]="'badge badge-pill badge-'+CSSClassTypeList[model.type]"
+    >{{model.badge}}</span>
+  <i *ngIf="model.icon" [class]="model.icon+' pr-1'"></i>
+  {{model.message}}
+  <button type="button" class="close" (click)="onDestroy()">
+    <span>×</span>
+  </button>
+</div>

@@ -1,0 +1,48 @@
+.date-picker {
+  display: inline-block;
+  min-width: 145px;
+}
+
+.date-picker-wrapper {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.date-picker-wrapper :last-child {
+  margin-left: 15px;
+}
+
+.date-picker-wrapper :first-child {
+  margin-right: 15px;
+}
+
+:host input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+.form-control.ng-valid.ng-touched {
+  border: 1px solid #c8cace;
+  margin: 0;
+}
+
+:host input.ng-valid.ng-touched:focus,
+textarea.ng-valid.ng-touched:focus,
+select.ng-valid.ng-touched:focus,
+.form-control.ng-valid.ng-touched:focus {
+  color: #666666;
+  background-color: #fff;
+  border-color: #c8cace;
+  outline: 0;
+}
+
+.copy-button {
+  cursor: pointer;
+  transition: color 0.4s;
+  color: inherit;
+  margin-left: 0.5em;
+}
+
+.copy-button:hover{
+  color: #6b9b17;
+}

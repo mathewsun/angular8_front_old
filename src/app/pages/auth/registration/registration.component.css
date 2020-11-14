@@ -1,0 +1,17 @@
+.sign-up-select {
+  line-height: calc(43px - 1rem);
+  border: 1px solid #e5e5e5;
+}
+
+.login-wrap {
+  padding: 8vh 0 8vh 0;
+}
+
+.page-wrapper {
+  overflow: auto;
+}
+
+.page-content {
+  background: #e5e5e5;
+  min-height: 100vh;
+}

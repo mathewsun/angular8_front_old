@@ -1,0 +1,71 @@
+.flag-option:before{
+  content: "<img src='assets/images/flags/ru.png' />";
+}
+
+.dropdown-item{
+  font-size: 14px;
+  color: #000;
+}
+
+.dropdown-item:hover{
+  color: #fff;
+  background: #81b616;
+}
+
+.langSelector-dropdown {
+  top: 12px !important;
+}
+
+.langSelector-dropdown:after {
+  content: '';
+  display: block;
+  width: 19px;
+  height: 19px;
+  border-bottom: 9px solid #fff;
+  border-top: 9px solid transparent;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  position: absolute;
+  top: -18px;
+  right: 57px;
+}
+
+.language-item {
+  cursor: pointer;
+}
+
+.language-item .image {
+  width: 45px;
+  height: 45px;
+  float: left;
+  overflow: hidden;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.language-item .image > img {
+  width: 100%;
+}
+
+.language-item > .content {
+}
+
+.language-item > .content > a {
+  color: #333;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.language-item.arrow > .content > a:after {
+  font-family: "Material-Design-Iconic-Font";
+  font-weight: 500;
+  content: '\f2f9';
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.language-item > .content > a:hover {
+  color: #666;
+}

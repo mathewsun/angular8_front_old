@@ -1,0 +1,30 @@
+<div
+  class="js-item-menu dropdown"
+  data-toggle="dropdown"
+  id="myDropdown"
+  data-offset="0,8"
+  style="display: grid; grid-template-columns: auto 6px;"
+  (abort)="onTouch()">
+  <div style=" text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+    {{displayValue || caption}}
+  </div>
+  <div class="dropdown-toggle"></div>
+</div>
+
+<div class="dropdown-menu js-dropdown"
+  style="border-radius: 4px; min-width: 100%"
+  #content
+  (click)="selectionChanged($event)">
+
+  <ng-template [ngIf]="showSearch">
+    <input type="text" class="dropdown-header" (keyup)="search(searchInput.value)" placeholder="Search..."
+           style="padding: 6px 12px;" #searchInput>
+    <div class="dropdown-divider"></div>
+  </ng-template>
+
+  <div class="items-wrapper" style="max-height: 300px; overflow-y: auto;">
+    <ng-content>
+
+    </ng-content>
+  </div>
+</div>

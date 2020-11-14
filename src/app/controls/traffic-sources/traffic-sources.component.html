@@ -1,0 +1,38 @@
+<div class="row traffic-sources">
+  <div class="col-12">
+    <div class="row justify-content-between form-subgroup overflow-auto"
+         *ngFor="let source of model; let i = index">
+      <div class="col-lg-6">
+        <label class="pr-1 form-control-label">{{source.name}}</label>
+      </div>
+      <div class="col-lg-6">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+          <label class="btn btn-outline-success" (click)="sourceSwitch(i, trafficSourceStatusEnum.Agreement)"
+                 [ngClass]="{active: source.allowed == trafficSourceStatusEnum.Agreement}">
+            <input type="radio" id="{{'agreement'+i}}" autocomplete="off" checked><i
+            class="fa-1-5x fa-exclamation-circle agreement"></i>
+          </label>
+          <label class="btn btn-outline-success" (click)="sourceSwitch(i, trafficSourceStatusEnum.Allowed)"
+                 [ngClass]="{active: source.allowed == trafficSourceStatusEnum.Allowed}">
+            <input type="radio" id="{{'allowed'+i}}" autocomplete="off"><i
+            class="fa-1-5x far fa-check-circle allowed"></i>
+          </label>
+          <label class="btn btn-outline-success" (click)="sourceSwitch(i, trafficSourceStatusEnum.Prohibited)"
+                 [ngClass]="{active: source.allowed == trafficSourceStatusEnum.Prohibited}">
+            <input type="radio" id="{{'prohibited'+i}}" autocomplete="off"><i
+            class="fa-1-5x far fa-times-circle prohibited"></i>
+          </label>
+        </div>
+      </div>
+      <!--      <label class="switch switch-3d switch-success mr-3">-->
+      <!--        <input-->
+      <!--          type="checkbox"-->
+      <!--          class="switch-input"-->
+      <!--          [id]="i" [checked]="source.allowed"-->
+      <!--          (change)="sourceSwitch(i)">-->
+      <!--        <span class="switch-label"></span>-->
+      <!--        <span class="switch-handle"></span>-->
+      <!--      </label>-->
+    </div>
+  </div>
+</div>

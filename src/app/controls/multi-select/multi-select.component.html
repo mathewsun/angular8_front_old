@@ -1,0 +1,51 @@
+<div #dropdownMenu>
+
+  <div
+    class="js-item-menu dropdown"
+    data-toggle="dropdown"
+    data-offset="0,8"
+    id="myDropdown"
+    style="display: grid; grid-template-columns: auto 6px;">
+    <div class="caption-overflow" [innerText]="caption+':&nbsp;'+selectionCount"></div>
+    <div class="dropdown-toggle"></div>
+  </div>
+
+  <div class="dropdown-menu js-dropdown" (click)="$event.stopPropagation()">
+
+    <input type="text" class="dropdown-header" placeholder="Search..." (keyup)="test()" style="padding: 6px 12px;" #searchInput>
+    <div class="dropdown-divider"></div>
+    <div style="padding: 6px 12px">
+
+      <label class="au-checkbox" style="display: flex;">
+        <span class="item-row">
+          <input id="selectAll" type="checkbox" [checked]="selectAll" (change)="selectionChangeAll(cbAll.checked)"
+                 #cbAll>
+          <span class="au-checkmark"></span>
+        </span>
+        <span class="item-label" for="selectAll">
+          Select all
+        </span>
+      </label>
+
+
+    </div>
+    <div class="dropdown-divider"></div>
+    <div class="list-items">
+      <div
+        class="dropdown-item disabled"
+        *ngFor="let item of itemFilter(searchInput.value)">
+
+        <label class="au-checkbox" style="display: flex;">
+          <span class="item-row">
+            <input type="checkbox" (change)="selectionChange(item, cb.checked)" [checked]="item.selected" #cb>
+            <span class="au-checkmark"></span>
+          </span>
+          <span *ngIf="!additionalDisplayField" class="item-label">{{ item.value[displayField] }}</span>
+          <span *ngIf="additionalDisplayField" class="item-label">{{ item.value[additionalDisplayField] }}: {{ item.value[displayField] }}</span>
+        </label>
+
+      </div>
+    </div>
+  </div>
+
+</div>

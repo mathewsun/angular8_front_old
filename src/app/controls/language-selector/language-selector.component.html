@@ -1,0 +1,27 @@
+<div class="language-switcher">
+
+  <div class="language-item js-item-menu"
+       [ngClass]="{'arrow': arrow}"
+       data-toggle="dropdown">
+    <div class="content" style="text-align: right">
+      <a class="js-acc-btn">
+        <img
+          style="height: 1em;"
+          [src]="'assets/images/flags/'+selectedLanguage.code+'.png'"/>
+      </a>
+    </div>
+  </div>
+
+  <div class="dropdown-menu js-dropdown langSelector-dropdown">
+    <div
+      class="dropdown-item"
+      *ngFor="let lang of languages | keyvalue"
+      (click)="langSelect(lang.key)">
+      <img
+        style="height: 1em; padding-right: 20px;"
+        [src]="'assets/images/flags/'+lang.key+'.png'"/>
+      <span>{{lang.value.name}}</span>
+    </div>
+  </div>
+
+</div>

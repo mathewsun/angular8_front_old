@@ -1,0 +1,158 @@
+<div class="row">
+  <h2 class="mb-4">{{snapshot.data.edit ? 'Edit' : 'Add'}} {{linkType ? 'postback link' : 'traffic back link'}}</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <form [formGroup]="linkForm">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-12">
+              <h4>Link</h4>
+              <br>
+              <div class="row form-group">
+                <div class="col-md-3">
+                  <label for="name" class=" form-control-label">Link name</label>
+                </div>
+                <div class="col-md-8">
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    formControlName="name"
+                    class="form-control">
+                  <small
+                    class="form-text text-invalid"
+                    *ngIf="name.touched && name.invalid">
+                    Enter any name
+                  </small>
+                  <small
+                    class="form-text small-placeholder"
+                    *ngIf="!(name.touched && name.invalid)"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-3">
+                  <label for="url" class=" form-control-label">URL</label>
+                </div>
+                <div class="col-md-8">
+                  <input
+                    type="text"
+                    id="url"
+                    name="url"
+                    formControlName="link"
+                    placeholder=""
+                    class="form-control">
+                  <small
+                    class="form-text text-invalid"
+                    *ngIf="link.touched && link.invalid">
+                    Enter valid url
+                  </small>
+                  <small
+                    class="form-text small-placeholder"
+                    *ngIf="!(link.touched && link.invalid)"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                </div>
+              </div>
+              <div *ngIf="linkType" class="row form-group">
+                <div class="col-md-3">
+                  <label for="actions" class=" form-control-label">Actions</label>
+                </div>
+                <div class="col-md-8">
+                  <app-multi-select
+                    class="form-control"
+                    formControlName="actions"
+                    id="actions"
+                    [selectAll]="false"
+                    displayField="label"
+                    [model]="actionList | wrapModelArray"></app-multi-select>
+                  <small
+                    class="form-text text-invalid"
+                    *ngIf="actions.touched && actions.invalid">
+                    Select at least one
+                  </small>
+                  <small
+                    class="form-text small-placeholder"
+                    *ngIf="!(actions.touched && actions.invalid)"
+                    [innerHTML]="'&nbsp;'">
+                  </small>
+                </div>
+              </div>
+<!--              <div class="row form-group" *ngIf="linkType">-->
+<!--                <div class="col-md-3">-->
+<!--                  <label for="method" class=" form-control-label">HTTP method</label>-->
+<!--                </div>-->
+<!--                <div class="col-md-8">-->
+<!--                  <app-select-->
+<!--                    id="method"-->
+<!--                    caption="Choose http method"-->
+<!--                    class="form-control"-->
+<!--                    formControlName="method">-->
+<!--                    <div-->
+<!--                      class="dropdown-item"-->
+<!--                      [attr.value]="0">Get-->
+<!--                    </div>-->
+<!--                    <div-->
+<!--                      class="dropdown-item"-->
+<!--                      [attr.value]="1">Post-->
+<!--                    </div>-->
+<!--                  </app-select>-->
+<!--                  <small-->
+<!--                    class="form-text small-placeholder"-->
+<!--                    [innerHTML]="'&nbsp;'">-->
+<!--                  </small>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6" *ngIf="linkType">
+          <h4>Postback parameters</h4>
+          <br>
+          <div class="row traffic-sources">
+            <div class="col-lg-12">
+              <br>
+              <div class="row">
+                <div class="col-12" *ngFor="let param of params">
+                  <div class="row">
+                    <div class="col-2">{{'{' + param.param + '}'}}</div>
+                    <div class="col-10">— {{param.desc}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row form-group">
+          <div class="col-md-6">
+            <div *ngIf="name.invalid && name.touched" class="alert alert-danger" role="alert">
+              Enter valid name
+            </div>
+            <div *ngIf="link.invalid && link.touched" class="alert alert-danger" role="alert">
+              Enter valid link
+            </div>
+            <div *ngIf="linkType && actions.invalid && actions.touched" class="alert alert-danger" role="alert">
+              Select at least one action
+            </div>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-6">
+            <app-progress-button [processing]="processing"
+                                 (click)="onSubmit()">{{snapshot.data.edit ? 'Save' : 'Create'}}</app-progress-button>
+            <button
+              class="btn btn-black btn-bold" backButton>Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

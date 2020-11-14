@@ -1,0 +1,151 @@
+stages:
+  - release
+  - deploy
+  - release_prod
+  - deploy_prod
+
+variables:
+  IMAGE_TAG_REF: $CI_PROJECT_PATH:$CI_COMMIT_REF_NAME
+  IMAGE_TAG_SHA: $CI_PROJECT_PATH:$CI_COMMIT_SHA
+  DEPLOY_NAME: $CI_PROJECT_NAME
+  DEPLOY_NAMESPACE: $CI_PROJECT_NAMESPACE-$CI_COMMIT_REF_SLUG
+  DEPLOY_HOST: $CI_PROJECT_NAME.$CI_PROJECT_NAMESPACE-$CI_COMMIT_REF_SLUG.k8s01.env.timo.group
+
+  API_HOST: api.{{ .Values.ci.namespace }}.k2.env.timo.group
+
+release:
+  stage: release
+  image: docker:18.09.6
+  services:
+    - name: docker:18.09.6-dind
+      command:
+        - /bin/sh
+        - -c
+        - |
+            dockerd-entrypoint.sh || exit
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - export API_HOST=localhost:9002
+    - echo $REGISTRY_PASSWORD | docker login --username c2m-docker-registry-ci $C2M_REGISTRY_PROXY --password-stdin
+    - docker pull $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder || true
+    - docker pull $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF || true
+    - docker build --build-arg API_HOST=$API_HOST --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder -t $C2M_REGISTRY/$IMAGE_TAG_REF-builder --target builder .
+    - docker build --build-arg API_HOST=$API_HOST --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF -t $C2M_REGISTRY/$IMAGE_TAG_REF -t $C2M_REGISTRY/$IMAGE_TAG_SHA .
+    - echo $REGISTRY_PASSWORD | docker login --username c2m-docker-registry-ci $C2M_REGISTRY --password-stdin
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_REF-builder
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_REF
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_SHA
+  only:
+    - dev
+    - master
+
+release_prod:
+  stage: release_prod
+  image: docker:18.09
+  services:
+    - name: docker:18.09-dind
+      command:
+        - /bin/sh
+        - -c
+        - |
+            echo $CA_ROOT | base64 -d > /usr/local/share/ca-certificates/timo_rootca.crt
+            echo $CA_SUB | base64 -d > /usr/local/share/ca-certificates/timo_subca1.crt
+            update-ca-certificates
+            dockerd-entrypoint.sh || exit
+  variables:
+    DOCKER_DRIVER: overlay2
+  script:
+    - echo $CI_BUILD_TOKEN | docker login --username $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker pull $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder || true
+    - docker pull $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF || true
+    - docker build --build-arg API_HOST=api2.click2.money --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder -t $C2M_REGISTRY/$IMAGE_TAG_REF-builder --target builder .
+    - docker build --build-arg API_HOST=api2.click2.money --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF-builder --cache-from $C2M_REGISTRY_PROXY/$IMAGE_TAG_REF -t $C2M_REGISTRY/$IMAGE_TAG_REF -t $C2M_REGISTRY/$IMAGE_TAG_SHA .
+    - echo $REGISTRY_PASSWORD | docker login --username c2m-docker-registry-ci $C2M_REGISTRY --password-stdin
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_REF-builder
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_REF
+    - docker push $C2M_REGISTRY/$IMAGE_TAG_SHA
+  only:
+    - production
+
+deploy_review:
+  stage: deploy
+  image:
+    name: devth/helm:$HELM_VERSION
+  environment:
+    name: $CI_COMMIT_REF_NAME
+    url: http://$CI_PROJECT_NAME.$CI_PROJECT_NAMESPACE-$CI_COMMIT_REF_SLUG.k8s01.env.timo.group
+    on_stop: stop_deploy_review
+  before_script:
+    - mkdir /tmp/kube
+    - echo $KUBE_CONFIG | base64 -d > /tmp/kube/config
+    - helm init --client-only --kubeconfig /tmp/kube/config
+  script:
+    - helm upgrade
+      --namespace $DEPLOY_NAMESPACE
+      --install
+      --set ci.name="$DEPLOY_NAME"
+      --set ci.namespace="$DEPLOY_NAMESPACE"
+      --set ci.image="$IMAGE_TAG_SHA"
+      --set ci.host="$DEPLOY_HOST"
+      --set ci.extras.refname="$CI_COMMIT_REF_NAME"
+      --set ci.extras.production=false
+      --wait
+      --timeout 80
+      --force
+      --kubeconfig /tmp/kube/config
+      $CI_PROJECT_NAMESPACE-$CI_COMMIT_REF_SLUG-$CI_PROJECT_NAME
+      ./helm/$CI_PROJECT_NAME
+  only:
+    - dev
+    - master
+  when: manual
+
+deploy_prod:
+  stage: deploy_prod
+  image:
+    name: devth/helm:$HELM_VERSION
+  environment:
+    name: production
+  before_script:
+    - mkdir /tmp/kube
+    - echo $KUBE_CONFIG | base64 -d > /tmp/kube/config
+    - helm init --client-only --kubeconfig /tmp/kube/config
+    - sed -i -e s/0.1.0/1.0.0-$CI_COMMIT_SHORT_SHA/g helm/$CI_PROJECT_NAME/Chart.yaml
+  script:
+    - helm upgrade
+      --namespace $CI_PROJECT_NAMESPACE-prod
+      --install
+      --set ci.name="$DEPLOY_NAME"
+      --set ci.namespace="$CI_PROJECT_NAMESPACE-prod"
+      --set ci.image="$IMAGE_TAG_SHA"
+      --set ci.host="$DEPLOY_HOST"
+      --set ci.extras.refname="$CI_COMMIT_REF_NAME"
+      --set ci.extras.production=true
+      --wait
+      --timeout 80
+      --force
+      --kubeconfig /tmp/kube/config
+      $CI_PROJECT_NAMESPACE-prod-$CI_PROJECT_NAME
+      ./helm/$CI_PROJECT_NAME
+  only:
+    - production
+  when: manual
+
+stop_deploy_review:
+  stage: deploy
+  image:
+    name: devth/helm:$HELM_VERSION
+  environment:
+    name: $CI_COMMIT_REF_NAME
+    action: stop
+  before_script:
+    - mkdir /tmp/kube
+    - echo $KUBE_CONFIG | base64 -d > /tmp/kube/config
+    - helm init --client-only --kubeconfig /tmp/kube/config
+  script:
+    - helm delete
+        --purge
+        --kubeconfig /tmp/kube/config
+        $CI_PROJECT_NAMESPACE-$CI_COMMIT_REF_SLUG-$CI_PROJECT_NAME
+  when: manual

@@ -1,0 +1,22 @@
+.progress-bar {
+  background-color: #6b9b17;
+  height: 5px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  transition: opacity 0.2s;
+}
+
+.body {
+  animation-duration: 900ms;
+  opacity: 1;
+}
+
+.alert-queue {
+  position: fixed;
+  z-index: 3;
+  top: 120px;
+  right: 2%;
+  width: 20%;
+}

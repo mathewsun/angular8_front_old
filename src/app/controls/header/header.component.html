@@ -1,0 +1,100 @@
+<header class="header-desktop" [ngClass]="{'admin' : isAdmin}">
+  <div class="section__content section__content--p30">
+    <div class="container-fluid">
+      <div class="header-wrap">
+        <h1 *ngIf="isDev" style = "color: red"><b>DEV</b></h1>
+        <div class="header-button">
+          <div class="balance-wrap">
+            <div
+              class="account-item clearfix js-item-menu"
+              data-toggle="dropdown">
+              <div class="content">
+                <span [ngClass]="{'admin-text' : isAdmin}">
+                  <span class="acrobat bold">Balance: </span>
+                  <span class="acrobat regular" *ngIf="selectedBalance"
+                        [innerHTML]="selectedBalance?.amount | customNumber"></span>
+                  <span class="acrobat regular" *ngIf="!selectedBalance"><i class="fa fa-spinner loading"></i></span>
+                  <span class="acrobat bold"> {{selectedBalance?.currency.symbol}}</span>
+                </span>
+                <a class="js-acc-btn"
+                   [ngClass]="{'admin-text' : isAdmin}"></a>
+              </div>
+            </div>
+            <div
+              class="dropdown-menu js-dropdown currency-dropdown">
+              <div
+                class="dropdown-item"
+                *ngFor="let b of balances"
+                (click)="currencySelect(b)">
+                <span style="cursor: pointer"
+                      [innerHTML]="b.currency.isoCode+': '+(b?.amount | customNumber)+' '+b.currency.symbol"></span>
+              </div>
+            </div>
+          </div>
+          <div class="account-wrap">
+            <div
+              class="account-item clearfix js-item-menu"
+              data-toggle="dropdown">
+              <div class="image" [style.background-image]="'url('+(user?.profile.picture | imageIdToLink)+')'">
+                <img [src]="(user?.profile.picture | imageIdToLink)"
+                     [alt]="username || user?.mail">
+              </div>
+              <div class="content">
+                <a
+                  class="js-acc-btn acrobat regular"
+                  [ngClass]="{'admin-text' : isAdmin}">{{username || user?.mail}}</a>
+              </div>
+            </div>
+
+            <div
+              class="dropdown-menu account-dropdown js-dropdown">
+              <a routerLink="/dashboard/profile">
+                <div class="info clearfix">
+                  <div class="image">
+                    <img [src]="(user?.profile.picture | imageIdToLink)"
+                         [alt]="username || user?.mail">
+                  </div>
+                  <div class="content">
+                    <div class="name">
+                      <span>{{username || user?.mail}}</span>
+                    </div>
+                    <div>
+                      <span class="email">{{user?.mail}}</span>
+                    </div>
+                    <div>
+                      <span class="id">ID: {{user?.id}}</span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <div class="account-dropdown__body">
+                <div class="account-dropdown__item">
+                  <a [routerLink]="'/dashboard/profile'">
+                    <i class="fas fa-user"></i>Profile</a>
+                </div>
+                <div class="account-dropdown__item">
+                  <a [routerLink]="'/dashboard/requisites'">
+                    <i class="fas fa-credit-card"></i>Requisites</a>
+                </div>
+                <div class="account-dropdown__item">
+                  <a [routerLink]="'/dashboard/finance'">
+                    <i class="fas fa-money-bill-alt"></i>Finance</a>
+                </div>
+              </div>
+              <div class="account-dropdown__footer">
+                <a (click)="signOut()" [routerLink]="">
+                  <i class="fas fa-power-off"></i>Log out</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="account-wrap">
+            <div style="padding: 9px 0 9px 25px;">
+              <app-language-selector [arrow]="true" [ngClass]="{'admin-text' : isAdmin}"></app-language-selector>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

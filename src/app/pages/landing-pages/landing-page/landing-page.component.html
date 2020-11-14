@@ -1,0 +1,56 @@
+<div class="row">
+  <h2 class="mb-4">Landing page</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class=" form-control-label">Page name</label>
+      </div>
+      <div class="col-md-4">
+        <span>{{landingPage.name}}</span>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class=" form-control-label">URL</label>
+      </div>
+      <div class="col-md-4">
+        <span><a href="{{landingPage.linkTemplate}}">{{landingPage.linkTemplate}}</a></span>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class=" form-control-label">Exlore URL</label>
+      </div>
+      <div class="col-md-4">
+        <span><a href="{{landingPage.observeLink}}">{{landingPage.observeLink}}</a></span>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class=" form-control-label ">Image</label>
+      </div>
+      <div class="col-md-4">
+        <img [src]="landingPage.image | imageIdToLink" [alt]="landingPage.name">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <label class="form-control-label">Landing type</label>
+      </div>
+      <div class="col-md-4">
+        <div class="row form-subgroup">
+          {{landingPageType[this.landingPage.type]}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-success btn-bold mr-3" routerLink="/dashboard/landing-pages/{{landingPage.id}}/edit">Edit
+        </button>
+        <button class="btn btn-black btn-bold" routerLink="/dashboard/landing-pages">Back</button>
+      </div>
+    </div>
+  </div>
+</div>

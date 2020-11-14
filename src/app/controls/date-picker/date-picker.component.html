@@ -1,0 +1,7 @@
+<div tabindex="0" class="data-picker-control">
+  <i (click)="myDatepicker.open()" class="far fa-calendar picker-icon"></i>
+  <input class="date-input" (dateChange)="dateChange($event)" size="10" [matDatepicker]="myDatepicker"
+         [(ngModel)]="selectedDate" (focus)="myDatepicker.open()">
+  <mat-datepicker-toggle [for]="myDatepicker" hidden></mat-datepicker-toggle>
+  <mat-datepicker #myDatepicker></mat-datepicker>
+</div>

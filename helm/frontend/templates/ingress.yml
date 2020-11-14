@@ -1,0 +1,39 @@
+{{- if not (eq .Values.ci.extras.production true)}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ci.name }}
+  namespace: {{ .Values.ci.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: nginx-internal
+spec:
+  rules:
+  - host: {{ .Values.ci.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Values.ci.name }}
+          servicePort: 80
+{{- else}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ci.name }}-pub-prod
+  namespace: {{ .Values.ci.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: tools.click2.money
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ .Values.ci.name }}
+          servicePort: 80
+  tls:
+  - hosts:
+    - tools.click2.money
+    secretName: tls-c2m-cf
+{{- end}}

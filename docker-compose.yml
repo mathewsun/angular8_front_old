@@ -1,0 +1,10 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        API_HOST: api.c2mnext-dev.k8s01.env.timo.group
+    ports:
+      - "4200:80"

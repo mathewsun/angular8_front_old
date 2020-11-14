@@ -1,0 +1,102 @@
+<div class="row">
+  <h2 class="mb-4">Payout information</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <form [formGroup]="requisitesForm">
+      <div class="row">
+        <div class="col-lg-12">
+          <h4 class="mb-5">Requisites</h4>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="wmr" class="form-control-label">WMR</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="wmr"
+                name="wmr"
+                class="form-control"
+                formControlName="wmr">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="wmz" class="form-control-label">WMZ</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="wmz"
+                name="wmz"
+                class="form-control"
+                formControlName="wmz">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="card" class="form-control-label">Bank card</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="card"
+                name="card"
+                class="form-control"
+                formControlName="bankCard">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="qiwi" class="form-control-label">Qiwi</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="qiwi"
+                name="qiwi"
+                class="form-control"
+                formControlName="qiwiWallet">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="yandexMoney" class="form-control-label">Yandex.Money</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="yandexMoney"
+                name="yandexMoney"
+                class="form-control"
+                formControlName="yandexMoney">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label for="paymentAccount" class="form-control-label">Payment Account</label>
+            </div>
+            <div class="col-md-5">
+              <input
+                type="text"
+                id="paymentAccount"
+                name="paymentAccount"
+                class="form-control"
+                formControlName="bankAccount">
+              Please, contact your manager via <a href="mailto:asupport@click2.money">support@click2.money</a> to pay
+              with your payment account.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+    <div class="row">
+      <div class="col-lg-12">
+        <app-progress-button [processing]="processing" (click)="save()">
+          Save
+        </app-progress-button>
+      </div>
+    </div>
+  </div>
+</div>

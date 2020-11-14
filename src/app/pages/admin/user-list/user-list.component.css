@@ -1,0 +1,17 @@
+input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+.form-control.ng-valid.ng-touched {
+  border: 1px solid #c8cace;
+  margin: 0;
+}
+
+input.ng-valid.ng-touched:focus,
+textarea.ng-valid.ng-touched:focus,
+select.ng-valid.ng-touched:focus,
+.form-control.ng-valid.ng-touched:focus {
+  color: #666666;
+  background-color: #fff;
+  border-color: #c8cace;
+  outline: 0;
+}

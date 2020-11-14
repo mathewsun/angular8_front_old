@@ -1,0 +1,30 @@
+:host ::ng-deep.dropdown-item:hover {
+  background: #81b616;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 15px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown {
+  padding: .5rem 1rem
+}
+
+:host ::ng-deep.dropdown-menu div:first-child {
+  padding-top: 0.5rem;
+}
+
+:host ::ng-deep.dropdown-menu div:last-child {
+  padding-bottom: 0.5rem;
+}
+
+:host {
+  padding: 0;
+  position: relative;
+  tab-index: 0;
+}

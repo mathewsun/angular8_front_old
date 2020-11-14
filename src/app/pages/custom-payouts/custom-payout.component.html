@@ -1,0 +1,13 @@
+<div class="row">
+  <h2 class="mb-4">Custom payout</h2>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <div class="row">
+      <div class="col-12">
+        <app-by-offer *ngIf="activatedRouteSnapshot.data.subComponent == 'by-offer'"></app-by-offer>
+        <app-by-user *ngIf="activatedRouteSnapshot.data.subComponent == 'by-user'"></app-by-user>
+      </div>
+    </div>
+  </div>
+</div>

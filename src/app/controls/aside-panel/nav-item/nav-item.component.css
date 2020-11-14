@@ -1,0 +1,64 @@
+.nav-item.active > a{
+  color: #81b616;
+}
+
+.nav-item {
+  overflow: hidden;
+  position: relative;
+}
+
+.nav-item li{
+  overflow: hidden;
+  position: relative;
+}
+
+.nav-item a{
+  padding: 9px 0;
+}
+
+.nav-item i{
+  width: 12px;
+}
+
+.nav-item .sub-items{
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-item .sub-items > div{
+  position: relative;
+  transition: margin-top 0.4s;
+  margin-top: -200%;
+}
+
+.nav-item.expanded .sub-items > div{
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+
+/*
+.nav-item:hover .sub-items > div{
+  overflow: hidden;
+  position: relative;
+  margin-top: 0;
+}
+
+ */
+.nav-sub-item.active > a{
+  color: #81b616;
+}
+
+.sub-items {
+  padding-left: 42px;
+}
+
+
+.sub-items ul {
+  list-style: none;
+  overflow: hidden;
+}
+
+.menuFont {
+  font-weight: 400;
+}

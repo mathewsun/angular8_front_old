@@ -1,0 +1,5 @@
+deployment:
+  tier: frontend
+  spec:
+    replicas: 1
+

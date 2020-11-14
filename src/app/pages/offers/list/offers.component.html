@@ -1,0 +1,182 @@
+<div class="row">
+  <div [ngSwitch]="this.type">
+    <h2 *ngSwitchCase="'my'" class="mb-4">My offers</h2>
+    <h2 *ngSwitchCase="'private'" class="mb-4">Private offers</h2>
+    <h2 *ngSwitchDefault class="mb-4">Offers</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <div class="row" [formGroup]="filtersFormGroup" (change)="toggleFilters()">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="search" class="form-control-label">Search</label>
+          <input
+            type="text"
+            id="search"
+            class="form-control"
+            formControlName="searchInput"
+            (keydown.enter)="updateFiltersInQueryParams()"
+          >
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="category" class="form-control-label">Category</label>
+          <app-select
+            class="form-control"
+            id="category"
+            formControlName="categorySelect"
+            caption="All categories">
+            <div
+              class="dropdown-item"
+              [attr.data-value]="9000">All categories
+            </div>
+            <div
+              *ngFor="let offerSubcategory of offerSubcategories"
+              class="dropdown-item"
+              [attr.data-value]="offerSubcategory.id">{{offerSubcategory.name | titlecase}}</div>
+          </app-select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="country" class="form-control-label">Country</label>
+          <app-multi-select
+            class="form-control"
+            id="country"
+            formControlName="countryListMS"
+            displayField="enName"
+            [selectAll]="(this.snapshot.queryParamMap.get('countries') == 'all' || !this.snapshot.queryParamMap.get('countries'))"
+            [additionalDisplayField]="'id'"
+            [model]="this.countries | wrapModelArray"
+            #geo>
+          </app-multi-select>
+        </div>
+      </div>
+      <div class="col-4 clearfix">
+        <button class="btn btn-link label-margin mr-4" (click)="clearFilters()">Clear filters</button>
+        <button class="btn btn-success label-margin" (click)="updateFiltersInQueryParams()">Update</button>
+      </div>
+      <div class="col-2" *hasRole="['CreateOffer']">
+        <div class="float-right label-margin">
+          <button class="btn btn-success" routerLink="/dashboard/add-offer">Add offer</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 scroll">
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let el of offers; index as i">
+            <tr [ngClass]="{'disabled' : !el.enabled}">
+              <td class="align-middle">
+                {{el.id}}
+              </td>
+              <td class="td-1 align-middle">
+                <a routerLink="/dashboard/offers/{{el.id}}">
+                  <img [src]='el.image | imageIdToLink' [alt]='el.name'>
+                </a>
+              </td>
+              <td class="td-2 align-middle">
+                <a routerLink="/dashboard/offers/{{el.id}}">
+                  <h5>
+                    <ng-container *ngIf="!el.enabled">Disabled:</ng-container>
+                    {{el.name}}</h5>
+                </a>
+              </td>
+              <td class="align-middle">
+                {{el.subcategory.name  | titlecase}}
+              </td>
+              <td class="align-middle">
+                <ng-container [ngSwitch]="true">
+                  <ng-container *ngSwitchCase="el.countries?.length == 0">
+                    <span *ngIf="el.countries?.length == 0">All</span>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="el.countries.length < 3 || unhiddenCountries.has(i)">
+                    <div *ngFor="let country of el.countries">
+                      <span>
+                        {{country.enName}}
+                      </span>
+                    </div>
+                    <button class="btn-link" *ngIf="unhiddenCountries.has(i)" (click)="unhiddenCountries.delete(i)">Hide</button>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="el.countries.length > 3 && !unhiddenCountries.has(i)">
+                    <div *ngFor="let country of el.countries; index as j">
+                      <span *ngIf="j < 3">
+                        {{country.enName}}
+                      </span>
+                    </div>
+                    <button class="btn-link" *ngIf="!unhiddenCountries.has(i)" (click)="unhiddenCountries.add(i)">Show all</button>
+                  </ng-container>
+                </ng-container>
+              </td>
+              <td class="align-middle max-width-150">
+                <div *ngFor="let action of el.actions" title="{{action.name || action.key}}" class="to-ellipsis ">
+                  <span *ngIf="action.type==0">
+                    {{action.name || action.key}}
+                  </span>
+                </div>
+              </td>
+              <td class="td-1 align-middle">
+                <div *ngFor="let action of el.actions">
+                  <span *ngIf="action.type==0">
+                     {{currencies[el.currencyId].symbol}}{{action.payout}}
+                  </span>
+                </div>
+              </td>
+              <td class="align-middle">
+                {{el.ar || '-'}}
+              </td>
+              <td class="align-middle">
+                {{el.epc || '-'}}
+              </td>
+              <td class="td-1 align-middle">
+                <button
+                  class="btn btn-outline-success btn-block mb-3"
+                  *ngIf="el.visibility == 1 && !el.allowed"
+                  (click)="showRequestAccessPopup(el)">
+                  Request access
+                </button>
+                <button class="btn btn-success btn-block mb-3" *ngIf="el.allowed"
+                        [routerLink]="['/dashboard/add-stream']" [queryParams]="{offerId: el.id}">
+                  Create stream
+                </button>
+                <a href="" class="btn btn-outline-danger btn-block " *hasRole="['Superuser']"
+                   routerLink="/dashboard/offers/{{el.id}}/edit">Edit
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+          <tfoot *ngIf="loading">
+          <tr>
+            <td colspan="9">
+              Loading... <i class="fa fa-spinner loading"></i>
+            </td>
+          </tr>
+          </tfoot>
+          <tfoot *ngIf="offers?.length == 0 && !loading">
+          <tr>
+            <td colspan="9">
+              No offers.
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <paginator [amount]="pageCount" [selected]="pageSelected"></paginator>
+      </div>
+    </div>
+  </div>
+</div>

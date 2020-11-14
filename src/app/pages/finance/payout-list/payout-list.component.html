@@ -1,0 +1,125 @@
+<h4 class="mb-5">Payment list</h4>
+<div [formGroup]="paymentFiltersForm" (change)="onFilterChange()">
+  <div class="row">
+    <div class="date-picker-wrapper">
+      <app-date-picker class="date-picker" formControlName="dateFromDP"></app-date-picker>
+      <app-date-picker class="date-picker" formControlName="dateToDP"></app-date-picker>
+    </div>
+    <div class="col-2">
+      <app-select
+        id="payment-status"
+        class="form-control"
+        formControlName="paymentStatusSelect"
+        caption="All statuses">
+        <div
+          class="dropdown-item"
+          [attr.data-value]="9000">All statuses
+        </div>
+        <div
+          *ngFor="let paymentStatus of paymentStatusEnum | enumToArray"
+          class="dropdown-item"
+          [attr.data-value]="paymentStatusEnum[paymentStatus]">{{paymentStatus}}</div>
+      </app-select>
+    </div>
+    <div class="col-2" *ngIf="admin">
+      <app-select
+        id="payment-account"
+        class="form-control"
+        formControlName="paymentTypeSelect"
+        caption="All types">
+        <div
+          class="dropdown-item"
+          [attr.data-value]="9000">All types
+        </div>
+        <div
+          *ngFor="let paymentType of paymentTypeEnum | enumToArray"
+          class="dropdown-item"
+          [attr.data-value]="paymentTypeEnum[paymentType]">{{paymentType}}</div>
+      </app-select>
+    </div>
+    <div class="col-2" *ngIf="admin">
+      <app-multi-select
+        class="form-control"
+        formControlName="webmasterListMS"
+        [displayField]="'mail'"
+        [additionalDisplayField]="'id'"
+        [selectAll]="true"
+        [model]="users | wrapModelArray"
+        [caption]="'Users'"
+        id="webmasterSelector"
+        #usersSelect>
+      </app-multi-select>
+    </div>
+    <button class="btn btn-link" (click)="clearFilters()">Clear filters</button>
+    <button class="btn btn-success" (click)="updateFiltersInQueryParams()">Update</button>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12 scroll">
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>Request date</th>
+          <th>Execution date</th>
+          <th *ngIf="admin">Webmaster</th>
+          <th *ngIf="admin">Type</th>
+          <th>Sum</th>
+          <th>Payment system</th>
+          <th>Wallet number</th>
+          <th>Payment status</th>
+          <th *ngIf="admin">Tools</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of paymentsArray">
+          <td>
+            {{ (row.confirmed || row.created) | date:"HH:mm dd.MM.yyyy"}}
+          </td>
+          <td>
+            {{ (row.executed || row.rejected)  | date:"HH:mm dd.MM.yyyy"}}
+          </td>
+          <td *ngIf="admin">
+            <div *ngFor="let operation of row.operations">
+              <div>{{ operation.user.id}}: {{operation.user.mail}}</div>
+            </div>
+          </td>
+          <td *ngIf="admin">
+            {{paymentTypeEnum[row.type]}}
+          </td>
+          <td>
+            <div *ngFor="let operation of row.operations">
+              <div>{{ this.currencies[operation.currencyId]?.symbol}} {{operation.amount}}</div>
+            </div>
+          </td>
+          <td>
+              {{row.extraData.payment_name || '-'}}
+          </td>
+          <td>
+            {{row.extraData.payment_account || '-'}}
+          </td>
+          <td [ngSwitch]="row.status">
+            <div *ngSwitchCase="0">Created</div>
+            <div class="c2m-green" *ngSwitchCase="2">Executed</div>
+            <div class="c2m-red" *ngSwitchCase="4">Rejected</div>
+          </td>
+          <td *ngIf="admin" class="align-middle">
+                <i *ngIf="row.status == 0 && row.type == 1" class="fas fa-gavel copy-button" (click)="onTransactionConfirm(row)"></i>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colspan="9" *ngIf="admin && paymentsArray.length == 0">No payments found</td>
+          <td colspan="6" *ngIf="!admin && paymentsArray.length == 0">No payments found</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-12">
+      <paginator [amount]="pageCount" [selected]="pageSelected"></paginator>
+    </div>
+  </div>
+</div>

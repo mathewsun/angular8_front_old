@@ -1,0 +1,420 @@
+/* Main */
+@import "../src/assets/vendor/bootstrap-4.1/bootstrap.min.css";
+@import "../src/assets/styles/theme.css";
+@import "../src/assets/styles/font-face.css";
+/* Vendor */
+@import "../src/assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css";
+@import "../src/assets/vendor/css-hamburgers/hamburgers.css";
+@import "../src/assets/vendor/font-awesome-5/css/fontawesome-all.min.css";
+/*@import "../src/assets/vendor/font-awesome-4.7/css/font-awesome.css";*/
+@import "../src/assets/vendor/mdi-font/css/material-design-iconic-font.min.css";
+@import "../src/assets/vendor/perfect-scrollbar/perfect-scrollbar.css";
+@import "../src/assets/vendor/select2/select2.min.css";
+@import "../src/assets/vendor/slick/slick-theme.css";
+@import "../src/assets/vendor/slick/slick.css";
+@import "../src/assets/vendor/smk-accordion/accordion.css";
+@import "../src/assets/vendor/vector-map/jqvmap.min.css";
+@import "../src/assets/vendor/wow/animate.css";
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* C2M */
+
+.au-card {
+  overflow: inherit;
+}
+
+.header-desktop .menu-sidebar .logo {
+  background: #f4f4f8;
+}
+
+/* ----- C2M language switcher ----- */
+
+.account-dropdown:after {
+  right: 108px
+}
+
+/* ----- C2M Angular modal ----- */
+
+.modal-lg {
+  max-width: 70%;
+}
+
+/* ----- C2M Validator ----- */
+
+.text-invalid {
+  color: #e86759;
+}
+
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched,
+traffic-sources.ng-invalid.ng-touched > div,
+.form-control.ng-invalid.ng-touched {
+  border-color: #c61e23;
+  margin: 0;
+}
+
+input.ng-invalid.ng-touched:focus,
+textarea.ng-invalid.ng-touched:focus,
+select.ng-invalid.ng-touched:focus,
+traffic-sources.ng-invalid.ng-touched:focus > div,
+.form-control.ng-invalid.ng-touched:focus {
+  box-shadow: 0 0 0 .2rem rgba(198, 30, 35, 0.5);
+  margin: 0;
+}
+
+input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+traffic-sources.ng-valid.ng-touched > div,
+.form-control.ng-valid.ng-touched {
+  border-color: #81b616;
+  margin: 0;
+}
+
+input.ng-valid.ng-touched:focus,
+textarea.ng-valid.ng-touched:focus,
+select.ng-valid.ng-touched:focus,
+traffic-sources.ng-valid.ng-touched:focus > div,
+.form-control.ng-valid.ng-touched:focus {
+  box-shadow: 0 0 0 .2rem rgba(129, 182, 22, 0.5);
+  margin: 0;
+}
+
+/* ----- C2M au-card ----- */
+
+.au-card {
+  padding: 3em 3em;
+}
+
+/* ----- C2M form-group ----- */
+
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+/* ----- C2M section__content ----- */
+
+.section__content {
+  margin: 0 1.5%;
+}
+
+/* ----- C2M form-control ----- */
+
+.form-control:focus {
+  color: #666666;
+  background-color: #fff;
+  border-color: #c8cace;
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(200, 202, 206, 0.25)
+}
+
+/* ----- C2M buttons ----- */
+
+.btn.focus, .btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 0;
+}
+
+.btn-success:focus, .btn-success.focus {
+  box-shadow: none;
+}
+
+.btn-bold {
+  height: 58px !important;
+  width: 220px !important;
+}
+
+/* Grey C2M button */
+
+.btn-outline-grey {
+  color: #666666;
+  background-color: transparent;
+  background-image: none;
+  border-color: #c8cace
+}
+
+.btn-outline-grey:hover {
+  color: #666666;
+  background-color: #f5f6f8;
+  border-color: #c8cace;
+}
+
+.btn-outline-grey.disabled, .btn-outline-grey:disabled {
+  color: #dcdcdc;
+  background-color: transparent;
+}
+
+.btn-outline-grey:not(:disabled):not(.disabled).active, .btn-outline-grey:not(:disabled):not(.disabled):active, .show > .btn-outline-grey.dropdown-toggle {
+  color: #666666;
+  background-color: #FFFFFF;
+  border: 2px solid #81b616;
+  padding: 6px 13px 6px 13px;
+}
+
+
+/* Black C2M button */
+
+
+.btn-black {
+  color: #fff;
+  background-color: #000000;
+  border-color: #000000
+}
+
+.btn-black:hover {
+  color: #fff;
+  background-color: #333333;
+  border-color: #333333
+}
+
+.btn-black.disabled, .btn-black:disabled {
+  color: #fff;
+  background-color: #333333;
+  border-color: #333333
+}
+
+.btn-black:not(:disabled):not(.disabled).active, .btn-black:not(:disabled):not(.disabled):active, .show > .btn-black.dropdown-toggle {
+  color: #fff;
+  background-color: #333333;
+  border-color: #333333
+}
+
+.btn-outline-black {
+  color: #000000;
+  background-color: transparent;
+  background-image: none;
+  border-color: #000000
+}
+
+.btn-outline-black:hover {
+  color: #fff;
+  background-color: #333333;
+  border-color: #000000
+}
+
+.btn-outline-black.disabled, .btn-outline-black:disabled {
+  color: #333333;
+  background-color: transparent
+}
+
+.btn-outline-black:not(:disabled):not(.disabled).active, .btn-outline-black:not(:disabled):not(.disabled):active, .show > .btn-outline-black.dropdown-toggle {
+  color: #fff;
+  background-color: #333333;
+  border-color: #000000
+}
+
+/* ----- */
+
+button {
+  transition: background 1s, color 1s;
+}
+
+button.button-progress {
+  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent) !important;
+  background-size: 80px 80px !important;
+  animation: progress-button-stripes 0.5s linear infinite;
+  color: transparent !important;
+}
+
+@keyframes progress-button-stripes {
+  from {
+    background-position: 0 0
+  }
+  to {
+    background-position: 80px 0
+  }
+}
+
+/* ----- C2M tables ----- */
+
+.table-bordered {
+  border: 1px solid #c8cace;
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: #f7f8fa;
+}
+
+.table thead th {
+  border: 0;
+}
+
+.table td, .table th {
+  padding: 0.75rem 0.75rem 0.75rem 2rem;
+  vertical-align: top;
+  border-top: 1px solid #c8cace;
+  border-right: 0;
+  border-left: 0;
+}
+
+.table {
+  color: #666666;
+}
+
+.td-1 {
+  width: 8.3% !important;
+}
+
+.td-2 {
+  width: 16.7% !important;
+}
+
+.td-3 {
+  width: 25% !important;
+}
+
+.td-4 {
+  width: 33.3% !important;
+}
+
+.td-5 {
+  width: 41.7% !important;
+}
+
+.td-6 {
+  width: 50% !important;
+}
+
+.td-7 {
+  width: 58.3% !important;
+}
+
+.td-8 {
+  width: 66.6% !important;
+}
+
+.td-9 {
+  width: 75% !important;
+}
+
+.td-10 {
+  width: 83.3% !important;
+}
+
+.td-11 {
+  width: 91.7% !important;
+}
+
+.td-12 {
+  width: 100% !important;
+}
+
+
+/* ----- C2M forms ----- */
+
+.form-control {
+  color: #666666;
+  border: 1px solid #c8cace;
+}
+
+.form-subgroup {
+  margin-bottom: 1rem;
+}
+
+/* ----- C2M Actions ----- */
+
+.actions-margin {
+  margin: 1rem 0 1rem 0 !important;
+}
+
+.override-margin {
+  margin: 1.25rem 20% .75rem 20% !important;
+}
+
+/* ----- C2M trafsources table ----- */
+
+.traffic-sources {
+  overflow: auto;
+  border: 1px #cacbcf solid;
+  padding: 10% 5% 5% 10%;
+  border-radius: 10px;
+  margin: 0;
+}
+
+/* ----- C2M colors ----- */
+
+.c2m-grey {
+  color: #525252;
+}
+
+.c2m-green {
+  color: #81b616;
+}
+
+.c2m-red {
+  color: #dc3545;
+}
+
+/* ----- C2M hr ----- */
+
+hr {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.label-margin {
+  margin-top: 29px;
+}
+
+.tool-icon {
+  margin-right: 15px;
+}
+
+/* ----- C2M statistics ----- */
+
+.th-sub {
+  bottom: 0.75em;
+}
+
+.fa-1-5x {
+  font-size: 1.5em;
+}
+
+.typo-articles ul {
+  padding-left: 30px;
+}
+
+.btn-link {
+  text-align: left;
+  padding-left: 0;
+  color: #656876;
+  text-decoration: underline;
+}
+
+.btn-link:hover{
+  color: #2b2e35;
+}
+
+html {
+  font-size: 14px;
+}
+
+.btn, .form-control, .data-picker-control {
+  padding: .5rem 1rem;
+}
+
+select.form-control:not([size]):not([multiple]) {
+  height: calc(2.5rem + 2px);
+}
+
+.account-dropdown__item a i {
+  font-size: 16px;
+}
+
+th {
+  color: #2b2e35;
+}
+
+td {
+  color: #656876;
+}
+
+.small-placeholder {
+  height: 1.3rem;
+}
+
+.scroll {
+  overflow: auto;
+  overflow-y: hidden;
+}

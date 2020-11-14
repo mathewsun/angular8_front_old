@@ -1,0 +1,109 @@
+.table-header {
+  cursor: pointer;
+}
+
+.margin-3 {
+  margin: 3px;
+}
+
+.filter-block {
+  margin: 3.4rem 0 0 0;
+}
+
+.date-picker, .period-buttons > button {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  min-width: 145px;
+}
+
+.form-label {
+  height: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+sub.th-sub{
+  bottom: auto;
+}
+
+.col-12 {
+  padding: 7px;
+}
+
+input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+.form-control.ng-valid.ng-touched {
+  border: 1px solid #c8cace;
+  margin: 0;
+}
+
+input.ng-valid.ng-touched:focus,
+textarea.ng-valid.ng-touched:focus,
+select.ng-valid.ng-touched:focus,
+.form-control.ng-valid.ng-touched:focus {
+  color: #666666;
+  background-color: #fff;
+  border-color: #c8cace;
+  outline: 0;
+}
+
+.header-grid {
+  align-content: center;
+}
+
+.grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 45% 10% 45%;
+}
+
+.left-element{
+  text-align: right;
+  padding-right: 0;
+}
+
+.mid-element{
+  text-align: center;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.right-element{
+  text-align: left;
+  padding-left: 0;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-center div{
+  text-align: left;
+  display: inline;
+}
+
+button {
+  transition: background 0.3s, color 0.3s;
+}
+
+button.button-progress {
+  background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent) !important;
+  background-size: 80px 80px !important;
+  animation: progress-button-stripes 0.5s linear infinite;
+  color: transparent !important;
+}
+
+@keyframes progress-button-stripes {
+  from {
+    background-position: 0 0
+  }
+  to {
+    background-position: 80px 0
+  }
+}
+
+/*.au-card {*/
+/*  border-radius: 0 0 10px 10px;*/
+/*}*/

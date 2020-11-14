@@ -1,0 +1,39 @@
+<div class="modal fade" [ngClass]="{'show': isShow}">
+  <div class="modal-background" (click)="onOutsideClick()">
+  </div>
+  <div class="modal-dialog">
+    <div class="au-card modal-content">
+      <div class="modal-body lb-body">
+        <div class="row">
+          <div class="col-11">
+            <h4 class="mb-4">Confirm transaction, id: {{transaction?.id}}</h4>
+          </div>
+          <div class="col-1">
+            <i (click)="close()" class="fa fa-times float-right close-button"></i>
+          </div>
+        </div>
+        <div class="row form-group" [formGroup]="reasonFormGroup">
+          <div class="col-12">
+            <h5 class="mb-5">Reason</h5>
+            <textarea
+              class="form-control"
+              formControlName="reasonTA"
+              rows="4"
+              placeholder="Enter reason"></textarea>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-12">
+            <button class="btn btn-success mr-2" (click)="confirm(transaction.id, reasonTA.value)">Confirm</button>
+            <button class="btn  btn-outline-danger" (click)="reject(transaction.id, reasonTA.value)">Reject</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="alert alert-danger mt-4" *ngIf="reasonFormGroup.touched && reasonFormGroup.invalid">Enter reason</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

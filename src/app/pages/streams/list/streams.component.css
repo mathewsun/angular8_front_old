@@ -1,0 +1,85 @@
+.tag {
+  border-radius: 6px;
+  padding: 1px 6px;
+  margin: 3px;
+  color: #777;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.copy-button {
+  cursor: pointer;
+  white-space: pre;
+}
+
+.copy-button i {
+  transition: color 0.4s;
+}
+
+.copy-button:hover i {
+  color: #6b9b17;
+}
+
+.copy-field {
+  width: 100%;
+  cursor: pointer;
+  white-space: pre;
+}
+
+.offer-link {
+  color: #656876
+}
+
+.offer-link:hover {
+  text-decoration: underline;
+}
+
+.copy-field i {
+  transition: color 0.4s;
+}
+
+.copy-field:hover i {
+  color: #6b9b17;
+}
+
+.block-link {
+  width: 100%;
+  font-size: 14px;
+  color: #808080;
+  display: inline-block;
+  background: #f2f2f2;
+  border-radius: 2px;
+  line-height: 30px;
+  padding: 0 14px;
+}
+
+.copy-button {
+  color: inherit;
+}
+
+input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched,
+select.ng-valid.ng-touched,
+.form-control.ng-valid.ng-touched {
+  border: 1px solid #c8cace;
+  margin: 0;
+}
+
+input.ng-valid.ng-touched:focus,
+textarea.ng-valid.ng-touched:focus,
+select.ng-valid.ng-touched:focus,
+.form-control.ng-valid.ng-touched:focus {
+  color: #666666;
+  background-color: #fff;
+  border-color: #c8cace;
+  outline: 0;
+}
+
+.loading {
+  -webkit-animation:spin 1.5s ease-in-out infinite;
+  -moz-animation:spin 1.5s ease-in-out infinite;
+  animation:spin 1.5s ease-in-out infinite ;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -1,0 +1,78 @@
+<div class="modal fade" [ngClass]="{'show': isShow}">
+  <div class="modal-background" (click)="onOutsideClick()">
+  </div>
+  <div class="modal-dialog" [formGroup]="linkComponentsFormGroup">
+    <div class="au-card modal-content">
+      <div class="modal-body lb-body">
+        <div class="row">
+          <div class="col-11">
+            <h4>Get the link</h4>
+          </div>
+          <div class="col-1">
+            <i (click)="close()" class="fa fa-times float-right close-button"></i>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-2">
+            <label class="form-control-label name-label">Name: </label>
+          </div>
+          <div class="col-10">
+            <span><h5>{{streamName}}</h5></span>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label class="form-control-label form-label" for="Subid1">Subid1</label>
+              <input type="text" id="Subid1" class="form-control" [formControlName]="'subid1'">
+            </div>
+            <div class="form-group">
+              <label class="form-control-label form-label" for="Subid4">Subid4</label>
+              <input type="text" id="Subid4" class="form-control" [formControlName]="'subid4'">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="form-control-label form-label" for="Subid2">Subid2</label>
+              <input type="text" id="Subid2" class="form-control" [formControlName]="'subid2'">
+            </div>
+            <div class="form-group">
+              <label class="form-control-label form-label" for="Subid5">Subid5</label>
+              <input type="text" id="Subid5" class="form-control" [formControlName]="'subid5'">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-group">
+              <label class="form-control-label form-label" for="Subid3">Subid3</label>
+              <input type="text" id="Subid3" class="form-control" [formControlName]="'subid3'">
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label class="form-control-label form-label" for="resultLink">Result link</label>
+              <textarea id="resultLink" class="form-control" #resultLink></textarea>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-12">
+              <button class="btn btn-success" (click)="copyLink($event)">
+                Copy to clipboard
+              </button>
+              <button class="btn btn-link" (click)="clearSubids(linkComponentsFormGroup)">
+                Clear subids
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

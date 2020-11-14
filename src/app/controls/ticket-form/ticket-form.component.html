@@ -1,0 +1,82 @@
+<h4 class="mb-4" *ngIf="type == 'general'">Contact us</h4>
+<form [formGroup]="newTicket">
+  <div class="row form-group">
+    <div [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+         *ngIf="type=='general'">
+      <app-select
+        name="ticketType"
+        id="ticketType"
+        caption="Choose ticket category"
+        class="form-control"
+        formControlName="ticketType">
+        <div
+          class="dropdown-item"
+          *ngFor="let ticketType of ticketTypeEnum | enumToArray"
+          [attr.data-value]="ticketTypeEnum[ticketType]">{{ticketType}}</div>
+      </app-select>
+    </div>
+    <div [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+         *ngIf="type=='requestAccess'">
+      <h5>Request access to offer "{{offerName}}"</h5>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+         *ngIf="type=='general'">
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        placeholder="Subject"
+        formControlName="subject"
+        class="form-control">
+    </div>
+  </div>
+  <div class="row form-group">
+    <div [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}">
+          <textarea
+            rows="10"
+            id="message"
+            name="message"
+            placeholder="Enter your message"
+            formControlName="message"
+            class="form-control"></textarea>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div
+      [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+      *ngIf="ticketType.touched && ticketType.invalid">
+      <div class="alert alert-danger" role="alert">
+        Choose category
+      </div>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div
+      [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+      *ngIf="subject.touched && subject.invalid">
+      <div class="alert alert-danger" role="alert">
+        Enter subject, max 64 symbols
+      </div>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div
+      [ngClass]="{'col-12': format=='popup', 'col col-lg-5 col-md-8 col-sm-12': format=='page'}"
+      *ngIf="message.touched && message.invalid">
+      <div class="alert alert-danger" role="alert">
+        Enter the message
+      </div>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-12">
+      <app-progress-button [processing]="processing" (click)="onSubmit()">Submit</app-progress-button>
+
+      <button *ngIf="back"
+              class="btn btn-black btn-bold" backButton>Back
+      </button>
+    </div>
+  </div>
+</form>

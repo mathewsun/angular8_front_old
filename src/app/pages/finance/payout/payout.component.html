@@ -1,0 +1,118 @@
+<div [formGroup]="orderPayoutForm">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-5">Order payout</h4>
+        </div>
+      </div>
+      <div *ngIf="!noWallets" class="row form-group">
+        <div class="col-md-3">
+          <label for="currency" class="form-control-label">Wallet</label>
+        </div>
+        <div class="col-md-7">
+          <app-select
+            id="wallet"
+            class="form-control"
+            formControlName="walletSelect"
+            caption="Choose wallet">
+            <div
+              *ngFor="let item of requisites | keyvalue"
+              class="dropdown-item"
+              [attr.data-value]="item.key ">{{item.key}}: {{item.value}}</div>
+          </app-select>
+        </div>
+      </div>
+      <div *ngIf="!noWallets"  class="row form-group">
+        <div class="col-md-3">
+          <label for="currency" class="form-control-label">Currency</label>
+        </div>
+        <div class="col-md-7">
+          <app-select
+            (changed)="changeValidators(currencySelect.value, balances)"
+            id="currency"
+            class="form-control"
+            formControlName="currencySelect"
+            caption="Choose currency">
+            <div
+              *ngFor="let currency of currencies"
+              class="dropdown-item"
+              [attr.data-value]="currency.id">{{currency.isoCode}} {{currency.symbol}}</div>
+            <div *ngIf="currencies.length == 0" class="dropdown-item">
+              Empty
+            </div>
+          </app-select>
+        </div>
+      </div>
+      <div *ngIf="!noWallets"  class="row form-group">
+        <div class="col-md-3">
+          <label for="sum" class="form-control-label">Payout sum</label>
+        </div>
+        <div class="col-md-7">
+          <input
+            type="text"
+            id="sum"
+            class="form-control"
+            formControlName="payoutSum"
+            placeholder="0000.00">
+          <small *ngIf="max && min" class="form-text small-placeholder">
+            Minimum: {{min}}<ng-container *ngIf="max > min">, maximum: {{max}}</ng-container>
+          </small>
+          <small
+            *ngIf="!max || !min"
+            class="form-text small-placeholder"
+            [innerHTML]="'&nbsp;'">
+          </small>
+          <!--        formControlName="payoutSum">-->
+        </div>
+      </div>
+      <div *ngIf="!noWallets"  class="row form-group">
+        <div class="col-8">
+          <div class="alert alert-danger mt-4" *ngIf="currencySelect.invalid && currencySelect.touched">Select currency.</div>
+          <div class="alert alert-danger mt-4" *ngIf="(payoutSum.invalid && payoutSum.touched) && !(payoutSum.touched && currencySelect.touched && payoutSum.value > max && max) && !(payoutSum.touched && currencySelect.touched && payoutSum.value < min && min)">Wrong sum.</div>
+          <div class="alert alert-danger mt-4" *ngIf="currencySelect.touched && !max">Choose another currency.</div>
+          <div class="alert alert-danger mt-4" *ngIf="payoutSum.touched && currencySelect.touched && payoutSum.value > max && max">The amount entered is greater than the balance.</div>
+          <div class="alert alert-danger mt-4" *ngIf="payoutSum.touched && currencySelect.touched && payoutSum.value < min && min">The amount entered is less then minimal value.</div>
+        </div>
+      </div>
+      <div *ngIf="!noWallets"  class="row form-group">
+        <div class="col-8">
+          <app-progress-button [disabled] = "currencies.length == 0" [processing]="processing" *ngIf="!noWallets" (click)="sendRequest()">Place order
+          </app-progress-button>
+        </div>
+      </div>
+      <div *ngIf="noWallets" class="row form-group">
+        <div class="col-8">
+          <button class="btn-success btn-bold" routerLink="/dashboard/requisites">Add requisites</button>
+        </div>
+      </div>
+      <div *ngIf="noWallets" class="row form-group">
+        <div class="col-12">
+          <div class="alert alert-danger mt-4">Add your requisites to withdraw.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-5">Balance</h4>
+        </div>
+      </div>
+      <div class="row traffic-sources">
+        <div class="col-12">
+          <div *ngIf="balances.length == 0"><h5>Empty</h5></div>
+          <ng-container *ngFor="let balance of balances; let i = index">
+            <div style="display: grid; width: 100%; grid-template-columns: 5% 75% 20%">
+              <h5>{{balance?.currency.isoCode}}</h5>
+              <h5>:</h5>
+              <h5 [innerHTML]="balance?.currency.symbol + (balance?.amount | customNumber)"></h5>
+            </div>
+            <hr *ngIf="i !== balances.length - 1">
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <h4 class="mb-3">Commission: 1 USD</h4>-->
+<!--  <h4 class="mb-3">Total payout: 99 USD</h4>-->

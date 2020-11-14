@@ -1,0 +1,17 @@
+.prohibited {
+  color: red;
+}
+
+.allowed {
+  color: #81b616;
+}
+
+.chosen {
+  border: #81b616 3px solid;
+}
+
+.landing-header {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

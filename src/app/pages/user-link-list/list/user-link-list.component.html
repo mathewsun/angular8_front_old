@@ -1,0 +1,121 @@
+<div class="row">
+  <div [ngSwitch]="userLinkType">
+    <h2 *ngSwitchCase="UserLinkTypeEnum.UserPostback" class="mb-4">Postback links</h2>
+    <h2 *ngSwitchCase="UserLinkTypeEnum.UserTraffback" class="mb-4">Traffic back links</h2>
+    <h2 *ngSwitchCase="UserLinkTypeEnum.AdminPostback" class="mb-4">Admin postback links</h2>
+    <h2 *ngSwitchCase="UserLinkTypeEnum.AdminTraffback" class="mb-4">Admin traffic back links</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="au-card col-lg-12">
+    <div class="row" [formGroup]="filtersFormGroup" (change)="toggleFilters()">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="search" class="form-control-label">Search</label>
+          <input
+            type="text"
+            id="search"
+            class="form-control"
+            formControlName="searchInput"
+            (keydown.enter)="updateFiltersInQueryParams()"
+          >
+        </div>
+      </div>
+      <div class="col-2" *ngIf="adminMode">
+        <div class="form-group">
+          <label for="webmasters" class="form-control-label">Webmasters</label>
+          <app-multi-select
+            class="form-control"
+            id="webmasters"
+            formControlName="webmasterMS"
+            displayField="mail"
+            [selectAll]="true"
+            [model]="userList | wrapModelArray"
+            #geo>
+          </app-multi-select>
+        </div>
+      </div>
+      <div class="col-6 clearfix">
+        <button class="btn btn-link label-margin mr-4" (click)="clearFilters()">Clear filters</button>
+        <button class="btn btn-success label-margin" (click)="updateFiltersInQueryParams()">Update</button>
+      </div>
+      <div [ngClass]="{'col-2': adminMode, 'col-4': !adminMode}">
+        <div class="float-right label-margin">
+          <button class="btn btn-success"
+                  routerLink="/dashboard/add-link/{{userLinkType == UserLinkTypeEnum.UserPostback || UserLinkTypeEnum.AdminPostback ? 'postback' : 'traffback'}}">Add link
+          </button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-12 scroll">
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th class="td-1">Id</th>
+            <!--            <th class="td-2">Date</th>-->
+            <th *ngIf="adminMode">Webmaster</th>
+            <th>Name</th>
+            <th>Link</th>
+            <th *ngIf="this.userLinkType == 0 || this.userLinkType == 2" class="td-2">Actions</th>
+            <th style="width: 130px;">Tools</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let link of linkList, index as i">
+            <td>{{link.id}}</td>
+            <!--              <td>{{link.date}}</td>-->
+            <td *ngIf="adminMode">{{link.user.mail}}</td>
+            <td>{{link.name}}</td>
+            <td>{{link.link}}</td>
+            <td *ngIf="this.userLinkType == 0 || this.userLinkType == 2">
+              <div *ngIf="link.onHold">Hold</div>
+              <div *ngIf="link.onApproved">Approved</div>
+              <div *ngIf="link.onRejected">Rejected</div>
+            </td>
+            <td class="align-middle" style="width: 130px;">
+              <a
+                *ngIf="!adminMode"
+                [routerLink]="'/dashboard/edit-link/'+ (userLinkType == UserLinkTypeEnum.UserPostback || UserLinkTypeEnum.AdminPostback ? 'postback' : 'traffback') +'/'+link.id+'/edit'"
+                class="copy-button">
+                <i class="fa fa-edit tool-icon"></i>
+              </a>
+              <a
+                *ngIf="adminMode"
+                [routerLink]="'/admin/edit-link/'+ (userLinkType == UserLinkTypeEnum.UserPostback || UserLinkTypeEnum.AdminPostback ? 'postback' : 'traffback') +'/'+link.id+'/edit'"
+                class="copy-button">
+                <i class="fa fa-edit tool-icon"></i>
+              </a>
+              <a
+                (click)="deleteLink(link.id, i)"
+                class="copy-button">
+                <i class="fa fa-times tool-icon"></i>
+              </a>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot *ngIf="loading">
+          <tr>
+            <td colspan="9">
+              Loading... <i class="fa fa-spinner loading"></i>
+            </td>
+          </tr>
+          </tfoot>
+          <tfoot *ngIf="linkList.length == 0 && !loading">
+          <tr>
+            <td colspan="10" class="align-middle">No links. <a routerLink="/add-link/postback">Create new one</a>.
+            </td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-12">
+        <paginator [amount]="pageCount" [selected]="pageSelected"></paginator>
+      </div>
+    </div>
+  </div>
+</div>

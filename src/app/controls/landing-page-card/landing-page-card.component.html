@@ -1,0 +1,50 @@
+<div class="landing-page-card" [ngClass]="{'selected': model.selected, 'adaptive' : true}">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 image-wrapper">
+        <div class="pic-container">
+          <div
+            [style.background-image]="'url('+ (model.value.image | imageIdToLink) + ')'"
+            class="landingImage"></div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="row mb-5">
+          <div class="col-12">
+            <i *ngIf="model.value.type == 0 || model.value.type == 2" class="fa fa-mobile float-right format"></i>&emsp;
+            <i *ngIf="model.value.type == 1 || model.value.type == 2" class="fa fa-desktop float-right format"></i>&emsp;
+          </div>
+        </div>
+        <div class="row mb-5">
+          <div class="col-12">
+            <h4>
+              {{model.value.name}}
+            </h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            AR - {{model.value?.ar || '-'}}% | CR - {{model.value?.cr || '-'}}%
+            <br/>EPC - {{model.value?.epc || '-'}}%
+          </div>
+        </div>
+        <div class="row align-items-end landing-card-info">
+          <div class="col-6 no-left-padding">
+            <a target="_blank" rel="noopener noreferrer" href="{{model.value.observeLink}}" style="display: block;"
+               class="btn btn-outline-grey btn-block"
+               [ngClass]="{'disabled' : !model.value.observeLink}"
+               *ngIf="model.value.observeLink">
+              Explore
+            </a>
+          </div>
+          <div class="col-6" *ngIf="!model.selected">
+            <button class="btn btn-success btn-block" (click)="onClick()">Choose</button>
+          </div>
+          <div class="col-6" *ngIf="model.selected">
+            <button class="btn btn-outline-grey btn-block" (click)="onClick()">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

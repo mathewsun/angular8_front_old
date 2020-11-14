@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-12">
+    <h4 class="mb-4">{{offer.id}} / {{offer.name}}</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 scroll">
+    <table
+      class="table table-bordered"
+      [formGroup]="customPayoutFormGroup">
+      <thead>
+      <tr>
+        <th>id</th>
+        <th>User mail</th>
+        <th>Action name</th>
+        <th>Custom payout web</th>
+        <th>Custom payout sum</th>
+        <th>Percent</th>
+        <th>Available</th>
+        <th>Delete user</th>
+      </tr>
+      </thead>
+      <ng-container formArrayName="customUsersArray">
+        <tbody *ngFor="let user of customUsersArray['controls']; let i = index">
+        <ng-container [formArrayName]="i+''">
+          <ng-container *ngFor="let action of user['controls']; let j = index">
+            <tr *ngIf="j == 0" [ngClass]="{'unique' : action.get('unique').value}" [attr.name]="action.get('userId').value">
+              <td class="align-middle">{{action.get('userId').value}}</td>
+              <td class="align-middle">{{action.get('userMail').value}}</td>
+              <td class="align-middle">
+                {{action.get('actionKey').value}}
+              </td>
+              <td class="align-middle" [formGroupName]="j+''">
+                <input
+                  [id]="j"
+                  formControlName="payout"
+                  type="text"
+                  class="form-control actions-margin">
+              </td>
+              <td class="align-middle" [formGroupName]="j+''">
+                <input
+                  [id]="j"
+                  formControlName="payoutAdvert"
+                  type="text"
+                  class="form-control actions-margin">
+              </td>
+              <td class="align-middle" [formGroupName]="j+''">
+                <input
+                  [id]="j"
+                  formControlName="percent"
+                  type="text"
+                  class="form-control actions-margin">
+              </td>
+              <td class="align-middle" [formGroupName]="j+''">
+                <label class="switch switch-3d switch-success mr-3 override-margin">
+                  <input
+                    [id]="j"
+                    formControlName="allowed"
+                    class="switch-input"
+                    type="checkbox">
+                  <span class="switch-label"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </td>
+              <td class="align-middle">
+                <a style="cursor: pointer" (click)="deleteUser(i, usersSelect)">
+                  <i class="fa fa-2x fa-times" ></i>
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="j !== 0" [ngClass]="{'unique' : action.get('unique').value}">
+              <td></td>
+              <td *ngIf="!action.get('unique').value"></td>
+              <td class="align-middle" *ngIf="action.get('unique').value" style="color: orangered">Not used</td>
+              <td class="align-middle">
+                {{action.get('actionKey').value}}
+              </td>
+              <td class="align-middle" [formGroupName]="j+''">
+                <input
+                  [id]="j"
+                  formControlName="payout"
+                  type="text"
+                  class="form-control actions-margin">
+              </td>
+              <td class="align-middle cell5" [formGroupName]="j+''">
+                <input
+                  [id]="j"
+                  formControlName="payoutAdvert"
+                  type="text"
+                  class="form-control actions-margin">
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </ng-container>
+        </ng-container>
+
+        </tbody>
+      </ng-container>
+      <tfoot>
+      <tr *ngIf="customUsersArray['controls'].length == 0">
+        <td colspan="7">No custom payouts.</td>
+      </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-1">
+    <button class="btn btn-success" (click)="addUsers(usersSelect)">Add user</button>
+  </div>
+  <div class="col-2">
+    <app-multi-select
+      class="form-control"
+      [selectAll]="false"
+      [displayField] = "'mail'"
+      [additionalDisplayField]="'id'"
+      [model]="allUsers | wrapModelArray"
+      #usersSelect>
+    </app-multi-select>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-12">
+    <app-progress-button [processing]="processing" (click)="onSendCustomPayout()">
+      Save
+    </app-progress-button>
+    <button class="btn btn-bold btn-black" routerLink="/dashboard/offers/{{offerId}}/edit">Back</button>
+  </div>
+</div>
